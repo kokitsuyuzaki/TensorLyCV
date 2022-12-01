@@ -1,0 +1,178 @@
+from snakemake.utils import min_version
+
+#################################
+# Setting
+#################################
+min_version("6.0.5")
+
+# Required Arguments
+if 'input' not in config.keys():
+	print("Error: specify your input file like\n--config input=[Your .npy file].\n")
+	quit()
+else:
+	INPUT = config["input"]
+
+if 'outdir' not in config.keys():
+	print("Error: specify your output directory like\n--config outdir=[output].\n")
+	quit()
+else:
+	OUTDIR = config["outdir"]
+
+# Optional Arguments
+if 'rank' not in config.keys():
+	CP_MAX_RANK = 10
+else:
+	CP_MAX_RANK = int(config["rank"])
+
+CP_RANKS = [str(x) for x in list(range(1, CP_MAX_RANK + 1))]
+
+if 'trials' not in config.keys():
+	TRIALS = 50
+else:
+	TRIALS = int(config["trials"])
+
+TRIAL_INDEX = [str(x) for x in list(range(1, TRIALS+1))]
+
+if 'iters' not in config.keys():
+	ITERS = 1000
+else:
+	ITERS = int(config["iters"])
+
+if 'ratio' not in config.keys():
+	RATIO = 20
+else:
+	RATIO = int(config["ratio"])
+
+# Docker Container
+container: 'docker://koki/tensorlycv:20221201'
+
+#################################
+# Rules
+#################################
+rule all:
+	input:
+		OUTDIR + '/plot/test_errors.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor1.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor3.png'
+
+rule check_input:
+	input:
+		INPUT
+	output:
+		OUTDIR + '/CHECK_INPUT'
+	benchmark:
+		OUTDIR + '/benchmarks/check_input.txt'
+	log:
+		OUTDIR + '/logs/check_input.log'
+	shell:
+		'src/check_input.sh {input} {output} >& {log}'
+
+rule tensorly:
+	input:
+		OUTDIR + '/CHECK_INPUT',
+		INPUT
+	output:
+		OUTDIR + '/tensorly/{cp_rank}/{t}.txt'
+	wildcard_constraints:
+		cp_rank='|'.join([re.escape(x) for x in CP_RANKS])
+	benchmark:
+		OUTDIR + '/benchmarks/tensorly/{cp_rank}/{t}.txt'
+	log:
+		OUTDIR + '/logs/tensorly/{cp_rank}/{t}.log'
+	shell:
+		'src/tensorly.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
+
+rule aggregate_tensorly:
+	input:
+		expand(OUTDIR + '/tensorly/{cp_rank}/{t}.txt',
+			cp_rank=CP_RANKS, t=TRIAL_INDEX)
+	output:
+		OUTDIR + '/tensorly/test_errors.csv'
+	benchmark:
+		OUTDIR + '/benchmarks/aggregate_tensorly.txt'
+	log:
+		OUTDIR + '/logs/aggregate_tensorly.log'
+	shell:
+		'src/aggregate_tensorly.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
+
+rule plot_tensorly:
+	input:
+		OUTDIR + '/tensorly/test_errors.csv'
+	output:
+		OUTDIR + '/plot/test_errors.png'
+	benchmark:
+		OUTDIR + '/benchmarks/plot_tensorly.txt'
+	log:
+		OUTDIR + '/logs/plot_tensorly.log'
+	shell:
+		'src/plot_tensorly.sh {input} {output} > {log}'
+
+rule bestrank:
+	input:
+		OUTDIR + '/tensorly/test_errors.csv'
+	output:
+		OUTDIR + '/tensorly/bestrank.txt'
+	benchmark:
+		OUTDIR + '/benchmarks/bestrank.txt'
+	log:
+		OUTDIR + '/logs/bestrank.log'
+	shell:
+		'src/bestrank.sh {input} {output} > {log}'
+
+rule bestrank_tensorly:
+	input:
+		INPUT,
+		OUTDIR + '/tensorly/bestrank.txt'
+	output:
+		OUTDIR + '/tensorly/bestrank/{t}/factor1.csv',
+		OUTDIR + '/tensorly/bestrank/{t}/factor2.csv',
+		OUTDIR + '/tensorly/bestrank/{t}/factor3.csv',
+		OUTDIR + '/tensorly/bestrank/{t}/error.txt',
+		OUTDIR + '/tensorly/bestrank/{t}/tensorly.pkl'
+	benchmark:
+		OUTDIR + '/benchmarks/bestrank_tensorly_{t}.txt'
+	log:
+		OUTDIR + '/logs/bestrank_tensorly_{t}.log'
+	shell:
+		'src/bestrank_tensorly.sh {input} {output} {ITERS} > {log}'
+
+rule bestrank_bestrial:
+	input:
+		expand(OUTDIR + '/tensorly/bestrank/{t}/error.txt',
+			t=TRIAL_INDEX)
+	output:
+		OUTDIR + '/tensorly/bestrank/besttrial.txt'
+	benchmark:
+		OUTDIR + '/benchmarks/bestrank_bestrial.txt'
+	log:
+		OUTDIR + '/logs/bestrank_bestrial.log'
+	shell:
+		'src/bestrank_bestrial.sh {OUTDIR} {output} > {log}'
+
+rule plot_bestrank_besttrial:
+	input:
+		OUTDIR + '/tensorly/bestrank/besttrial.txt'
+	output:
+		OUTDIR + '/plot/bestrank_besttrial_factor1.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor3.png'
+	benchmark:
+		OUTDIR + '/benchmarks/plot_bestrank_besttrial.txt'
+	log:
+		OUTDIR + '/logs/plot_bestrank_besttrial.log'
+	shell:
+		'src/plot_bestrank_besttrial.sh {input} {output} {OUTDIR} > {log}'
+
+
+
+# rule test:
+#     output:
+#         OUTDIR + '/hoge'
+#     benchmark:
+#         OUTDIR + '/benchmarks/test.txt'
+#     log:
+#         OUTDIR + '/logs/test.log'
+#     shell:
+#         'src/test.sh {INPUT} {CP_MAX_RANK} {TRIALS} {ITERS} {output} >& {log}'
+
