@@ -10,11 +10,11 @@ This workflow consists of the rules below:
 
 ![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
 
-# Pre-requisites
+# Pre-requisites (our experiment)
 - Bash: GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
-- Snakemake: 6.0.5
-- Singularity: 3.5.3
-- Docker: vX.XX.X
+- Snakemake: v6.0.5
+- Singularity: v3.5.3
+- Docker: v20.10.10
 
 # Usage
 
@@ -47,13 +47,30 @@ rank=10 trials=50 iters=1000 ratio=30 --resources mem_gb=100 \
 ## Minimum example with required arguments (local machine with Docker)
 
 ```bash
-docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:latest -i /work/vaccine_tensor.npy -o /work/output
+docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
+-i /work/vaccine_tensor.npy -o /work/output
+```
+
+or
+
+```bash
+docker run -it --rm -v $(pwd):/work koki/tensorlycv:latest \
+-i /work/vaccine_tensor.npy -o /work/output
 ```
 
 ## Example with full optional arguments (local machine with Docker)
 
 ```bash
-docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:latest \
+docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
+-i /work/vaccine_tensor.npy -o /work/output \
+--cores=10 --rank=10 --trials=50 --iters=1000 \
+--ratio=30 --memgb=100
+```
+
+or
+
+```bash
+docker run -it --rm -v $(pwd):/work koki/tensorlycv:latest \
 -i /work/vaccine_tensor.npy -o /work/output \
 --cores=10 --rank=10 --trials=50 --iters=1000 \
 --ratio=30 --memgb=100
