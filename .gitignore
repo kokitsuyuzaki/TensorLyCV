@@ -1,6 +1,8 @@
 .DS_Store
 ._*
 *.sh.*
+.fuse*
+.nfs*
 
 *.log
 */*.log
