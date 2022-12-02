@@ -11,6 +11,9 @@ This workflow consists of the rules below:
 ![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
 
 # Pre-requisites
+- Bash: GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
+- Snakemake: 6.0.5
+- Singularity: 3.5.3
 - Docker: vX.XX.X
 
 # Usage
@@ -24,6 +27,21 @@ Numpy three-dimensional array saved by numpy.save()
 ```bash
 wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 -O vaccine_tensor.npy
+```
+
+## Minimum example with required arguments (local machine)
+
+```bash
+snakemake -j 10 --config input=data/vaccine_tensor.npy outdir=output \
+--use-singularity
+```
+
+## Example with full optional arguments (local machine)
+
+```bash
+snakemake -j 10 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=30 --resources mem_gb=100 \
+--use-singularity
 ```
 
 ## Minimum example with required arguments (local machine with Docker)
@@ -44,21 +62,19 @@ docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:latest \
 ## Example with parallel environment (GridEngine)
 
 ```bash
-docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:latest \
--i /work/vaccine_tensor.npy -o /work/output \
---cores=10 --rank=10 --trials=50 --iters=1000 \
---ratio=30 --memgb=100 \
---cluster="qsub -l nc=4 -p -50 -r yes"
+snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=30 --resources mem_gb=100 \
+--use-singularity \
+--cluster "qsub -l nc=4 -p -50 -r yes" --latency-wait 60
 ```
 
 ## Example with parallel environment (Slurm)
 
 ```bash
-docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:latest \
--i /work/vaccine_tensor.npy -o /work/output \
---cores=10 --rank=10 --trials=50 --iters=1000 \
---ratio=30 --memgb=100 \
---cluster="sbatch -n 4 --nice=50 --requeue"
+snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=30 --resources mem_gb=100 \
+--use-singularity \
+--cluster "sbatch -n 4 --nice=50 --requeue" --latency-wait 60
 ```
 
 # Reference
