@@ -3,6 +3,7 @@ from snakemake.utils import min_version
 #################################
 # Setting
 #################################
+# Minimum Version of Snakemake
 min_version("6.0.5")
 
 # Required Arguments
