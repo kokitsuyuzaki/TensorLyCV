@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # Help page
 showHelp() {
@@ -109,10 +109,10 @@ shift $((OPTIND - 1))
 if [ "$CLUSTER" == "" ]; then
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
-	--resources mem_gb=$MEMGB --use-singularity
+	--resources mem_gb=$MEMGB --use-singularity --verbose
 else
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
 	--resources mem_gb=$MEMGB --use-singularity \
-	--cluster "$CLUSTER" --latency-wait 60
+	--cluster "$CLUSTER" --latency-wait 60 --verbose
 fi
