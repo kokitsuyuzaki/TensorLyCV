@@ -6,4 +6,4 @@ ADD tensorlycv /
 
 WORKDIR /
 
-ENTRYPOINT ["tensorlycv"]
+ENTRYPOINT ["/tensorlycv"]
