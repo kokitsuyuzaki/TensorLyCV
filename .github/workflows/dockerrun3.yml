@@ -16,4 +16,4 @@ jobs:
               uses: actions/checkout@v3
             - name: docker run
               run: |
-                  docker run koki/tensorlycv:latest -v
+                  docker run koki/tensorlycv:main -v

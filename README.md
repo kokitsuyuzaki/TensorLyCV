@@ -58,7 +58,7 @@ docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 or
 
 ```bash
-docker run -it --rm -v $(pwd):/work koki/tensorlycv:latest \
+docker run -it --rm -v $(pwd):/work koki/tensorlycv:main \
 -i /work/vaccine_tensor.npy -o /work/output
 ```
 
@@ -74,7 +74,7 @@ docker run -it --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 or
 
 ```bash
-docker run -it --rm -v $(pwd):/work koki/tensorlycv:latest \
+docker run -it --rm -v $(pwd):/work koki/tensorlycv:main \
 -i /work/vaccine_tensor.npy -o /work/output \
 --cores=10 --rank=10 --trials=50 --iters=1000 \
 --ratio=30 --memgb=100
