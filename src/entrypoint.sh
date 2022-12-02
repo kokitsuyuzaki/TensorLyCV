@@ -1,0 +1,118 @@
+#!/bin/bash
+
+# Help page
+showHelp() {
+    cat << EOF
+Usage: ./entrypoint.sh -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-l/-h/-v]
+Cross validation workflow of TensorLy
+
+    -i, -input,         --input                 Input file (e.g., vaccine_tensor.npy)
+
+    -o, -outdir,        --outdir                Output directory (e.g., output)
+
+    -c, -cores,         --cores                 Number of cores to use Snakemake (e.g., 10)
+
+    -r, -rank,          --rank                  Maximum rank parameter to search (e.g., 10)
+
+    -t, -trials,        --trials                Number of random trials (e.g., 50)
+
+    -e, -iters,         --iters                 Number of iterations (e.g., 1000)
+
+    -a, -ratio,         --ratio                 Sampling ratio of cross validation (0 - 100, e.g., 20)
+
+    -m, -memgb,         --memgb                 Memory usage (GB, 10)
+
+    -l, -cluster,       --cluster               Cluster option of SNakmeka (e.g., "qsub -l nc=4 -p -50 -r yes")
+
+    -h, -help,          --help                  Display help
+
+    -v, -version,       --version               Version of this workflow
+
+EOF
+}
+
+# Default Values
+INPUT=""
+OUTDIR=""
+CORES=10
+RANK=10
+TRIALS=50
+ITERS=1000
+RATIO=20
+MEMGB=10
+CLUSTER=""
+VERSION="v0.99.0"
+
+# Command Argument Parsing
+while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
+	echo $opt
+	optarg="$OPTARG"
+	[[ "$opt" = - ]] &&
+	    opt="-${OPTARG%%=*}" &&
+	    optarg="${OPTARG/${OPTARG%%=*}/}" &&
+	    optarg="${optarg#=}"
+    case "-$opt" in
+        -i|--input)
+            INPUT="$optarg"
+            ;;
+        -o|--outdir)
+            OUTDIR="$optarg"
+            ;;
+        -c|--cores)
+            CORES="$optarg"
+            ;;
+        -r|--rank)
+            RATIO="$optarg"
+            ;;
+        -t|--trials)
+            TRIALS="$optarg"
+            ;;
+        -e|--iters)
+            ITERS="$optarg"
+            ;;
+        -a|--ratio)
+            RATIO="$optarg"
+            ;;
+        -m|--memgb)
+            MEMGB="$optarg"
+            ;;
+        -l|--cluster)
+            CLUSTER="$optarg"
+            ;;
+        -h|--help)
+            showHelp
+            exit 0
+            ;;
+        -v|--version)
+            echo $VERSION
+            exit 0
+            ;;
+        \?)
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+echo "INPUT= "$INPUT
+echo "OUTDIR= "$OUTDIR
+echo "CORES= "$CORES
+echo "RANK= "$RANK
+echo "TRIALS= "$TRIALS
+echo "ITERS= "$ITERS
+echo "RATIO= "$RATIO
+echo "MEMGB= "$MEMGB
+echo "CLUSTER= "$CLUSTER
+echo "VERSION= "$VERSION
+
+# Perform Snakemake Workflow
+if [ "$CLUSTER" == "" ]; then
+	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
+	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
+	--resources mem_gb=$MEMGB --use-singularity
+else
+	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
+	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
+	--resources mem_gb=$MEMGB --use-singularity \
+	--cluster "$CLUSTER" --latency-wait 60
+fi

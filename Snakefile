@@ -5,43 +5,14 @@ from snakemake.utils import min_version
 #################################
 min_version("6.0.5")
 
-# Required Arguments
-if 'input' not in config.keys():
-	print("Error: specify your input file like\n--config input=[Your .npy file].\n")
-	quit()
-else:
-	INPUT = config["input"]
-
-if 'outdir' not in config.keys():
-	print("Error: specify your output directory like\n--config outdir=[output].\n")
-	quit()
-else:
-	OUTDIR = config["outdir"]
-
-# Optional Arguments
-if 'rank' not in config.keys():
-	CP_MAX_RANK = 10
-else:
-	CP_MAX_RANK = int(config["rank"])
-
+INPUT = config["input"]
+OUTDIR = config["outdir"]
+CP_MAX_RANK = int(config["rank"])
 CP_RANKS = [str(x) for x in list(range(1, CP_MAX_RANK + 1))]
-
-if 'trials' not in config.keys():
-	TRIALS = 50
-else:
-	TRIALS = int(config["trials"])
-
+TRIALS = int(config["trials"])
 TRIAL_INDEX = [str(x) for x in list(range(1, TRIALS+1))]
-
-if 'iters' not in config.keys():
-	ITERS = 1000
-else:
-	ITERS = int(config["iters"])
-
-if 'ratio' not in config.keys():
-	RATIO = 20
-else:
-	RATIO = int(config["ratio"])
+ITERS = int(config["iters"])
+RATIO = int(config["ratio"])
 
 # Docker Container
 container: 'docker://koki/tensorlycv:20221201'
