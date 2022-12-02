@@ -8,6 +8,7 @@ min_version("6.0.5")
 # Required Arguments
 INPUT = config["input"]
 OUTDIR = config["outdir"]
+
 # Optional Arguments
 CP_MAX_RANK = int(config["rank"])
 CP_RANKS = [str(x) for x in list(range(1, CP_MAX_RANK + 1))]
