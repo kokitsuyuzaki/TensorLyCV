@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Help page
 showHelp() {
@@ -94,16 +94,16 @@ while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
 done
 shift $((OPTIND - 1))
 
-echo "INPUT="$INPUT
-echo "OUTDIR="$OUTDIR
-echo "CORES="$CORES
-echo "RANK="$RANK
-echo "TRIALS="$TRIALS
-echo "ITERS="$ITERS
-echo "RATIO="$RATIO
-echo "MEMGB="$MEMGB
-echo "CLUSTER="$CLUSTER
-echo "VERSION="$VERSION
+# echo "INPUT="$INPUT
+# echo "OUTDIR="$OUTDIR
+# echo "CORES="$CORES
+# echo "RANK="$RANK
+# echo "TRIALS="$TRIALS
+# echo "ITERS="$ITERS
+# echo "RATIO="$RATIO
+# echo "MEMGB="$MEMGB
+# echo "CLUSTER="$CLUSTER
+# echo "VERSION="$VERSION
 
 # Perform Snakemake Workflow
 if [ "$CLUSTER" == "" ]; then
