@@ -5,4 +5,4 @@ ADD Snakefile /
 
 WORKDIR /
 
-ENTRYPOINT ["src/entrypoint.sh"]
+ENTRYPOINT ["src/tensorlycv"]

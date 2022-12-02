@@ -1,9 +1,7 @@
-#!/bin/bash
-
 # Help page
 showHelp() {
     cat << EOF
-Usage: ./entrypoint.sh -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-l/-h/-v]
+Usage: -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-l/-h/-v]
 Cross validation workflow of TensorLy
 
     -i, -input,         --input                 Input file (e.g., vaccine_tensor.npy)
@@ -45,7 +43,6 @@ VERSION="v0.99.0"
 
 # Command Argument Parsing
 while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
-	echo $opt
 	optarg="$OPTARG"
 	[[ "$opt" = - ]] &&
 	    opt="-${OPTARG%%=*}" &&
@@ -109,10 +106,10 @@ shift $((OPTIND - 1))
 if [ "$CLUSTER" == "" ]; then
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
-	--resources mem_gb=$MEMGB --use-singularity --verbose
+	--resources mem_gb=$MEMGB --use-singularity
 else
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
 	--resources mem_gb=$MEMGB --use-singularity \
-	--cluster "$CLUSTER" --latency-wait 60 --verbose
+	--cluster "$CLUSTER" --latency-wait 60
 fi
