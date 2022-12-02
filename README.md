@@ -7,6 +7,7 @@
 Cross validation workflow of TensorLy
 
 This workflow consists of the rules below:
+
 ![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
 
 # Pre-requisites
@@ -15,6 +16,9 @@ This workflow consists of the rules below:
 - Singularity: 3.5.3
 
 # Usage
+
+[Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
+
 ## Download this repository
 
 Firstly, download this repository by git clone and change the working directory like below.
@@ -27,8 +31,6 @@ cd TensorLyCV
 ## Download data
 
 
-
-[Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
 
 Numpy three-dimensional array saved by numpy.save()
 
@@ -76,9 +78,6 @@ rank=10 trials=50 iters=1000 ratio=30 --resources mem_gb=100 \
 # Reference
 - [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
 - [TensorLy](http://tensorly.org/stable/index.html)
-
-# License
-Copyright (c) 2023 Koki Tsuyuzaki released under the [Artistic License 2.0](http://www.perlfoundation.org/artistic_license_2_0).
 
 # Authors
 - Koki Tsuyuzaki

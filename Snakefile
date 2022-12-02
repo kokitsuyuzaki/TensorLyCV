@@ -163,16 +163,3 @@ rule plot_bestrank_besttrial:
 		OUTDIR + '/logs/plot_bestrank_besttrial.log'
 	shell:
 		'src/plot_bestrank_besttrial.sh {input} {output} {OUTDIR} > {log}'
-
-
-
-# rule test:
-#     output:
-#         OUTDIR + '/hoge'
-#     benchmark:
-#         OUTDIR + '/benchmarks/test.txt'
-#     log:
-#         OUTDIR + '/logs/test.log'
-#     shell:
-#         'src/test.sh {INPUT} {CP_MAX_RANK} {TRIALS} {ITERS} {output} >& {log}'
-
