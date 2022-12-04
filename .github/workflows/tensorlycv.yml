@@ -1,4 +1,4 @@
-name: Docker Run (koki/tensorlycv)
+name: Docker Run (tensorlycv)
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
         steps:
             - name: checkout code
               uses: actions/checkout@v3
-            - name: docker run
+            - name: src/test.sh
               run: |
                   src/test.sh
