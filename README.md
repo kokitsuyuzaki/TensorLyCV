@@ -17,9 +17,9 @@ This workflow consists of the rules below:
 
 # Pre-requisites (our experiment)
 - Bash: GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
-- Snakemake: v6.0.5
-- Singularity: v3.5.3
-- Docker: v20.10.10
+- Snakemake: v7.1.0
+- Singularity: v3.8.0
+- Docker: v20.10.7
 
 # Usage
 
