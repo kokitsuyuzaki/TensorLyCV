@@ -22,7 +22,7 @@ Cross validation workflow of TensorLy
 
     -m, -memgb,         --memgb                 Memory usage (GB, 10)
 
-    -l, -cluster,       --cluster               Cluster option of SNakmeka (e.g., "qsub -l nc=4 -p -50 -r yes")
+    -l, -cluster,       --cluster               Cluster option of Snakemake (e.g., "qsub -l nc=4 -p -50 -r yes")
 
     -h, -help,          --help                  Display help
 
