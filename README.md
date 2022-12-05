@@ -35,9 +35,18 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 -O data/vaccine_tensor.npy
 ```
 
+## Download this GitHub repository
+
+Then, download this GitHub repository and change the working directory.
+
+```bash
+git clone https://github.com/kokitsuyuzaki/TensorLyCV.git
+cd TensorLyCV
+```
+
 ## Example with local machine
 
-Then, we perform this workflow by `snakemake` command as follows.
+Next, perform this workflow by `snakemake` command as follows.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
@@ -47,17 +56,17 @@ rank=2 trials=2 iters=2 ratio=30 \
 
 The meanings of all the arguments are below.
 
-- `-j`: [Number of cores to use Snakemake](https://snakemake.readthedocs.io/en/stable/executing/cli.html#useful-command-line-arguments) (e.g. 10, mandatory)
-- `--config`: [Snakemake option to set the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
-- `input`: Input file (e.g., vaccine_tensor.npy)
-- `outdir`: Output directory (e.g., output)
-- `rank`: Maximum rank parameter to search (e.g., 10)
-- `trials`: Number of random trials (e.g., 50)
-- `iters`: Number of iterations (e.g., 1000)
-- `ratio`: Sampling ratio of cross validation (0 - 100, e.g., 20)
-- `--resources`: [Snakemake option to control resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
+- `-j`: Snakemake option to set [the number of cores](https://snakemake.readthedocs.io/en/stable/executing/cli.html#useful-command-line-arguments) (e.g. 10, mandatory)
+- `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
+- `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
+- `outdir`: Output directory (e.g., output, mandatory)
+- `rank`: Maximum rank parameter to search (e.g., default value is 10, optional)
+- `trials`: Number of random trials (e.g., default value is 50, optional)
+- `iters`: Number of iterations (e.g., default value is 1000, optional)
+- `ratio`: Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
+- `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
-- `--use-singularity`: Snakemake option to use `Singularity` (mandatory)
+- `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
 
 ## Example with parallel environment (GridEngine)
 
