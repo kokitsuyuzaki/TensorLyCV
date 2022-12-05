@@ -38,15 +38,15 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 ## Minimum example with required arguments (local machine)
 
 ```bash
-src/tensorlycv -i data/vaccine_tensor.npy -o output
+snakemake -i data/vaccine_tensor.npy -o output --use-singularity
 ```
 
 ## Example with full optional arguments (local machine)
 
 ```bash
-src/tensorlycv -i data/vaccine_tensor.npy -o output \
---cores=10 --rank=10 --trials=50 --iters=1000 \
---ratio=30 --memgb=100
+snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
+rank=2 trials=2 iters=2 ratio=30 \
+--resources mem_gb=10 --use-singularity
 ```
 
 ## Example with parallel environment (GridEngine)
