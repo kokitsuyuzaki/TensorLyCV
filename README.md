@@ -23,11 +23,12 @@ This workflow consists of the rules below:
 
 # Usage
 
-[Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
+As a demonstration, here we apply tensor decomposition to the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine).
 
 ## Download data
 
-Numpy three-dimensional array saved by numpy.save()
+In this workflow, the input data is assumed to be a Numpy three-dimensional array saved by numpy.save().
+The vaccine tensor data can be downloaded as below.
 
 ```bash
 wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
