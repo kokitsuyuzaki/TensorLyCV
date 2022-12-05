@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.0...v1.0.1) (2022-12-05)
+
+
+### Miscellaneous Chores
+
+* ZENODO ([6f4d141](https://github.com/kokitsuyuzaki/TensorLyCV/commit/6f4d141e0b4d86e49c662b56808842dc0610d3ef))
+
 ## [1.0.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v0.99.0...v1.0.0) (2022-12-05)
 
 
