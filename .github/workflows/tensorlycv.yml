@@ -14,8 +14,8 @@ jobs:
         steps:
             - name: wget
         uses: wei/wget@v1
-      with:
-        args: --no-check-certificate https://figshare.com/ndownloader/files/38344040 -O data/vaccine_tensor.npy
+        with:
+            args: -O data/vaccine_tensor.npy https://figshare.com/ndownloader/files/38344040
 
 jobs:
     unit-test-job:
