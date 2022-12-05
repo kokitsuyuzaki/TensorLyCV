@@ -9,9 +9,9 @@
 ![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/tensorlycv.yml/badge.svg)
 ![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/release-please.yml/badge.svg)
 
-Cross validation workflow of TensorLy
+Cross validation workflow of `TensorLy`
 
-This workflow consists of the rules below:
+`TensorLyCV` consists of the rules below:
 
 ![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
 
@@ -23,11 +23,11 @@ This workflow consists of the rules below:
 
 # Usage
 
-As a demonstration, here we apply [`TensorLy`](http://tensorly.org/stable/index.html) to the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine).
+In this demo, we use the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine) but user can specify any user's higher-order array or tensor.
 
 ## Download data
 
-In this workflow, the input data is assumed to be a `Numpy` three-dimensional array saved by `numpy.save`.
+In `TensorLyCV`, the input data is assumed to be a `Numpy` three-dimensional array saved by `numpy.save`.
 The vaccine tensor data can be downloaded as below.
 
 ```bash
@@ -46,7 +46,7 @@ cd TensorLyCV
 
 ## Example with local machine
 
-Next, perform this workflow by `snakemake` command as follows.
+Next, perform `TensorLyCV` by `snakemake` command as follows.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
