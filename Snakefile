@@ -19,7 +19,7 @@ ITERS = int(config["iters"])
 RATIO = int(config["ratio"])
 
 # Docker Container
-container: 'docker://ghcr.io/kokitsuyuzaki/tensorlycv:main'
+container: 'docker://koki/tensorlycv_component:latest'
 
 #################################
 # Rules

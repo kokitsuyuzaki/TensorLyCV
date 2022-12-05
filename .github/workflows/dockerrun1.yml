@@ -16,4 +16,4 @@ jobs:
               uses: actions/checkout@v3
             - name: docker run
               run: |
-                  docker run koki/tensorlycv_component:latest python -c "import sys; import numpy as np; import pandas as pd; import tensorly.decomposition as tsd; import pickle as pkl; import matplotlib.pyplot as plt; import seaborn as sns; import math; import random as rd"
+                  docker run koki/tensorlycv_component:latest python -c "import numpy; import pandas; import tensorly; import matplotlib; import seaborn; import snakemake"
