@@ -1,4 +1,4 @@
-name: DockerHub/GHCR
+name: Docker Push (DockerHub/GHCR)
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Docker Run (koki/tensorlycv_component)
+name: Docker Pull/Run (koki/tensorlycv_component)
 
 on:
   push:

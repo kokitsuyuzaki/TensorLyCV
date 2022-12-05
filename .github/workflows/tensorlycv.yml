@@ -1,4 +1,4 @@
-name: Docker Run (tensorlycv)
+name: Docker Pull/Run (tensorlycv in Docker Container)
 
 on:
   push:

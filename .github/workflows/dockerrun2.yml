@@ -1,4 +1,4 @@
-name: Docker Run (ghcr.io/kokitsuyuzaki/tensorlycv)
+name: Docker Pull/Run (ghcr.io/kokitsuyuzaki/tensorlycv)
 
 on:
   push:
