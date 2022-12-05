@@ -70,7 +70,7 @@ The meanings of all the arguments are below.
 
 ## Example with parallel environment (GridEngine)
 
-If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command after the `--cluster` option. This allows jobs to be submitted to multiple nodes and the computations to be distributed.
+If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
