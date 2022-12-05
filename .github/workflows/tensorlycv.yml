@@ -8,16 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-    wget:
-        name: wget
-        runs-on: ubuntu-latest
-        steps:
-            - name: wget
-        uses: wei/wget@v1
-        with:
-            args: -O data/vaccine_tensor.npy https://figshare.com/ndownloader/files/38344040
-
-jobs:
     unit-test-job:
         name: run unit-test job
         runs-on: ubuntu-latest
