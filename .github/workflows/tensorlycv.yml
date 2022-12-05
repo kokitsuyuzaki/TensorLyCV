@@ -8,11 +8,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  wget:
-    runs-on: ubuntu-latest
-    steps:
-    - name: wget
-      uses: wei/wget@v1
+    wget:
+        name: wget
+        runs-on: ubuntu-latest
+        steps:
+            - name: wget
+        uses: wei/wget@v1
       with:
         args: --no-check-certificate https://figshare.com/ndownloader/files/38344040 -O data/vaccine_tensor.npy
 
