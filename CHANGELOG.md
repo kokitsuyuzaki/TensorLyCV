@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.2...v1.0.3) (2022-12-06)
+
+
+### Bug Fixes
+
+* README.md ([87c8504](https://github.com/kokitsuyuzaki/TensorLyCV/commit/87c85041c90a2581c85125fe8f7ac87437872080))
+
 ## [1.0.2](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.1...v1.0.2) (2022-12-05)
 
 
