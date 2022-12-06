@@ -25,6 +25,15 @@ Cross validation workflow of `TensorLy`
 
 In this demo, we use the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine) but user can specify any user's higher-order array or tensor.
 
+## Download this GitHub repository
+
+First, download this GitHub repository and change the working directory.
+
+```bash
+git clone https://github.com/kokitsuyuzaki/TensorLyCV.git
+cd TensorLyCV
+```
+
 ## Download data
 
 In `TensorLyCV`, the input data is assumed to be a `Numpy` three-dimensional array saved by `numpy.save`.
@@ -33,15 +42,6 @@ The vaccine tensor data can be downloaded as below.
 ```bash
 wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 -O data/vaccine_tensor.npy
-```
-
-## Download this GitHub repository
-
-Then, download this GitHub repository and change the working directory.
-
-```bash
-git clone https://github.com/kokitsuyuzaki/TensorLyCV.git
-cd TensorLyCV
 ```
 
 ## Example with local machine
