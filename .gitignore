@@ -1,7 +1,6 @@
 .DS_Store
 ._*
 *.sh.*
-*.out
 .fuse*
 .nfs*
 

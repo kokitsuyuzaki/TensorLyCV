@@ -22,7 +22,7 @@ cp_rank = int(np.loadtxt(infile2))
 
 # Non-negative CP Decomposition
 res = tsd.non_negative_parafac(tensor=tnsr, n_iter_max=n_iter_max,
-    rank=cp_rank, return_errors=True, init="svd", verbose=True)
+    rank=cp_rank, return_errors=True, verbose=True)
 
 # Output Objects
 factor1 = res[0][1][0]
