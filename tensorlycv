@@ -43,7 +43,7 @@ ITERS=1000
 RATIO=20
 MEMGB=10
 CLUSTER=""
-VERSION=`grep "## \[[0-9]\.[0-99]*\.[0-99]\]" CHANGELOG.md -o | sed -e 's|\#\# \[|v|g' | sed -e 's|\]||' | head -1`
+VERSION="v1.1.0"
 
 # Command Argument Parsing
 while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
