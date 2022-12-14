@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.1.0...v1.2.0) (2022-12-14)
+
+
+### Features
+
+* tensorlycv =&gt; snakemake ([9e4f9ee](https://github.com/kokitsuyuzaki/TensorLyCV/commit/9e4f9ee89d48d5964c0a8ffa391c501d164cb425))
+
+
+### Bug Fixes
+
+* version in ./tensorlycv ([c647f55](https://github.com/kokitsuyuzaki/TensorLyCV/commit/c647f554e681aa61985a11083665d96675e12f72))
+
 ## [1.0.3](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.2...v1.0.3) (2022-12-06)
 
 
