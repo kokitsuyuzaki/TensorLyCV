@@ -46,36 +46,37 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 ## Example with local machine
 
-Next, perform `TensorLyCV` by `snakemake` command as follows.
+Next, perform `tensorlycv` command as follows.
 
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+./tensorlycv -i data/vaccine_tensor.npy -o output \
+--cores=2 --rank=2 --trials=2 --iters=2 \
+--ratio=30 --memgb=100
 ```
 
 The meanings of all the arguments are below.
 
-- `-j`: Snakemake option to set [the number of cores](https://snakemake.readthedocs.io/en/stable/executing/cli.html#useful-command-line-arguments) (e.g. 10, mandatory)
-- `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
-- `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
-- `outdir`: Output directory (e.g., output, mandatory)
-- `rank`: Maximum rank parameter to search (e.g., default value is 10, optional)
-- `trials`: Number of random trials (e.g., default value is 50, optional)
-- `iters`: Number of iterations (e.g., default value is 1000, optional)
-- `ratio`: Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
-- `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
-- `mem_gb`: Memory usage (GB, e.g. 10, optional)
-- `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
+- `-i` or `--input`: Input file (e.g., data/vaccine_tensor.npy, mandatory)
+- `-o` or `--outdir`: Output directory (e.g., output, mandatory)
+- `-c` or `--cores`: Number of cores used in Snakemake (e.g., default values is 10, optional)
+- `-r` or `--rank`: Maximum rank parameter to search (e.g., default value is 10, optional)
+- `-t` or `––trials`: Number of random trials (e.g., default value is 50, optional)
+- `-e` or `--iters`: Number of iterations (e.g., default value is 1000, optional)
+- `-a` or `--ratio`: Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
+- `-m` or `--memgb`: Memory usage (GB, e.g. default value is 10, optional)
+- `-l` or `--cluster`: Cluster option of Snakemake (e.g., "qsub -l nc=4 -p -50 -r yes", optional)
+- `-h` or `--help`: Display help
+- `-v` or `--version`: Version of this workflow
+
 
 ## Example with parallel environment (GridEngine)
 
 If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+./tensorlycv -i data/vaccine_tensor.npy -o output \
+--cores=2 --rank=2 --trials=2 --iters=2 \
+--ratio=30 --memgb=100 \
 --cluster "qsub -l nc=4 -p -50 -r yes"
 ```
 
@@ -84,9 +85,9 @@ rank=2 trials=2 iters=2 ratio=30 \
 Likewise, if `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+./tensorlycv -i data/vaccine_tensor.npy -o output \
+--cores=2 --rank=2 --trials=2 --iters=2 \
+--ratio=30 --memgb=100 \
 --cluster "sbatch -n 4 --nice=50 --requeue"
 ```
 

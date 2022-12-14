@@ -3,30 +3,33 @@
 # Help page
 showHelp() {
     cat << EOF
+###############################################
+#### Cross validation workflow of TensorLy ####
+###############################################
+
 Usage: ./tensorlycv -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-l/-h/-v]
-Cross validation workflow of TensorLy
 
-    -i, -input,         --input                 Input file (e.g., vaccine_tensor.npy)
+    -i, -input,   --input         Input file (e.g., data/vaccine_tensor.npy, mandatory)
 
-    -o, -outdir,        --outdir                Output directory (e.g., output)
+    -o, -outdir,  --outdir        Output directory (e.g., output, mandatory)
 
-    -c, -cores,         --cores                 Number of cores to use Snakemake (e.g., 10)
+    -c, -cores,   --cores         Number of cores used in Snakemake (e.g., default values is 10, optional)
 
-    -r, -rank,          --rank                  Maximum rank parameter to search (e.g., 10)
+    -r, -rank,    --rank          Maximum rank parameter to search (e.g., default value is 10, optional)
 
-    -t, -trials,        --trials                Number of random trials (e.g., 50)
+    -t, -trials,  --trials        Number of random trials (e.g., default value is 50, optional)
 
-    -e, -iters,         --iters                 Number of iterations (e.g., 1000)
+    -e, -iters,   --iters         Number of iterations (e.g., default value is 1000, optional)
 
-    -a, -ratio,         --ratio                 Sampling ratio of cross validation (0 - 100, e.g., 20)
+    -a, -ratio,   --ratio         Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
 
-    -m, -memgb,         --memgb                 Memory usage (GB, 10)
+    -m, -memgb,   --memgb         Memory usage (GB, e.g. default value is 10, optional)
 
-    -l, -cluster,       --cluster               Cluster option of Snakemake (e.g., "qsub -l nc=4 -p -50 -r yes")
+    -l, -cluster, --cluster       Cluster option of Snakemake (e.g., "qsub -l nc=4 -p -50 -r yes", optional)
 
-    -h, -help,          --help                  Display help
+    -h, -help,    --help          Display help
 
-    -v, -version,       --version               Version of this workflow
+    -v, -version, --version       Version of this workflow
 
 EOF
 }
@@ -41,7 +44,7 @@ ITERS=1000
 RATIO=20
 MEMGB=10
 CLUSTER=""
-VERSION="v0.99.0"
+VERSION=`grep "## \[[0-9]\.[0-99]*\.[0-99]\]" CHANGELOG.md -o | sed -e 's|\#\# \[|v|g' | sed -e 's|\]||' | head -1`
 
 # Command Argument Parsing
 while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
@@ -97,10 +100,14 @@ shift $((OPTIND - 1))
 if [ "$CLUSTER" == "" ]; then
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
-	--resources mem_gb=$MEMGB
+	--resources mem_gb=$MEMGB \
+    --use-singularity \
+    --latency-wait 60
 else
 	snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
 	rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
 	--resources mem_gb=$MEMGB \
-	--cluster "$CLUSTER" --latency-wait 60
+    --use-singularity \
+    --latency-wait 60 \
+	--cluster "$CLUSTER"
 fi
