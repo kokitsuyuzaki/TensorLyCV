@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.3...v1.1.0) (2022-12-14)
+
+
+### Features
+
+* snakemake =&gt; tensorlycv ([677e7ac](https://github.com/kokitsuyuzaki/TensorLyCV/commit/677e7ac77cea9f022673269de1df9eeb97ab5187))
+* snakemake =&gt; tensorlycv ([fdbf53e](https://github.com/kokitsuyuzaki/TensorLyCV/commit/fdbf53ebd7436352b16a8d432abae7eebd3d0db4))
+* snakemake =&gt; tensorlycv ([79068ff](https://github.com/kokitsuyuzaki/TensorLyCV/commit/79068ffde7143aaf01f0614734a152f724761f7c))
+* snakemake =&gt; tensorlycv ([374cee5](https://github.com/kokitsuyuzaki/TensorLyCV/commit/374cee564874716dc69cceb7b98e1eed8c256565))
+* snakemake =&gt; tensorlycv ([52f995e](https://github.com/kokitsuyuzaki/TensorLyCV/commit/52f995ec20ad0bb6269d13bb4bec410dc6872e3b))
+
+
+### Bug Fixes
+
+* koki/tensorlycv_component does not have singularity ([a92ce03](https://github.com/kokitsuyuzaki/TensorLyCV/commit/a92ce03427c88f9339d2ac520de5bfada62d4fe0))
+* koki/tensorlycv_component does not have singularity ([eb2fcaf](https://github.com/kokitsuyuzaki/TensorLyCV/commit/eb2fcafc92f0fe07d4f310c5f8ddfb5ca94a1d06))
+
 ## [1.0.3](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.0.2...v1.0.3) (2022-12-06)
 
 
