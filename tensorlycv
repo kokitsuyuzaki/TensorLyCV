@@ -3,9 +3,8 @@
 # Help page
 showHelp() {
     cat << EOF
-###############################################
-#### Cross validation workflow of TensorLy ####
-###############################################
+
+Cross validation workflow of TensorLy
 
 Usage: ./tensorlycv -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-l/-h/-v]
 
