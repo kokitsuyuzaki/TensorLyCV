@@ -1,8 +1,8 @@
 FROM koki/tensorlycv_component:latest
 
+ADD tensorlycv /
 ADD src /src
 ADD Snakefile /
-ADD tensorlycv /
 
 WORKDIR /
 
