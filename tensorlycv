@@ -41,7 +41,7 @@ ITERS=1000
 RATIO=20
 MEMGB=10
 CLUSTER=""
-VERSION="v0.99.0"
+VERSION="v1.2.1"
 
 # Command Argument Parsing
 while getopts i:o:c:r:t:e:a:m:l:h-:v- opt; do
