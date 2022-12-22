@@ -75,7 +75,7 @@ If `GridEngine` (`qsub` command) is available in your environment, you can add t
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
 rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+--resources mem_gb=10 --use-singularity \
 --cluster "qsub -l nc=4 -p -50 -r yes"
 ```
 
@@ -86,7 +86,7 @@ Likewise, if `Slurm` (`sbatch` command) is available in your environment, you ca
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
 rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+--resources mem_gb=10 --use-singularity \
 --cluster "sbatch -n 4 --nice=50 --requeue"
 ```
 
