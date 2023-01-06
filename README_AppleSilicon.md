@@ -4,17 +4,17 @@ This README is for M1/M2 Mac users.
 
 In our environment, `Singularity` did not work properly for M1/M2 Mac (2022/1/6).
 
-Therefore, the required tools for `TensorLyCV` are not available via Docker container image file on M1/M2 Mac for now.
+Therefore, the required tools for `TensorLyCV` are not available via the Docker container image file on M1/M2 Mac for now.
 
 Instead, all required tools must be installed manually.
 
-Here are the steps we followed on a M1 Mac.
+Here are the steps we followed on an M1 Mac.
 
 Note that this README is not exhaustive enough to solve all possible problems.
 
 ## Installation of all pre-requisites
 
-First, we downloaded a shell script to install Mambaforge providing the minimum installer of `mamba` from Miniforge web site.
+First, we downloaded a shell script to install Mambaforge providing the minimum installer of `mamba` from the Miniforge website.
 [https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh)
 
 Then we performed the shell script as follows:
@@ -23,7 +23,7 @@ Then we performed the shell script as follows:
 bash Mambaforge-MacOSX-arm64.sh
 ```
 
-After rebooting the shell, we confirmed that `mamba` command did work as follows:
+After rebooting the shell, we confirmed that the `mamba` command did work as follows:
 
 ```
 exec $SHELL -l
@@ -36,7 +36,7 @@ Next, we created a `conda` environment containing the required tools in `TensorL
 mamba create -c conda-forge -c bioconda -c anaconda -n tensorlycv snakemake wget tensorly seaborn matplotlib -y
 ```
 
-After activating the conda environment, we confirmed that `snakemake` command did work as follows:
+After activating the conda environment, we confirmed that the `snakemake` command did work as follows:
 
 ```bash
 mamba activate tensorlycv
@@ -55,7 +55,7 @@ cd TensorLyCV
 ## Download data
 
 In `TensorLyCV`, the input data is assumed to be a `Numpy` three-dimensional array saved by `numpy.save`.
-The vaccine tensor data can be downloaded as below.
+The vaccine tensor data can be downloaded below.
 
 ```bash
 mkdir -p data
@@ -65,7 +65,7 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 ## Example with local machine
 
-Next, perform `TensorLyCV` by `snakemake` command as follows.
+Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
@@ -81,17 +81,17 @@ The meanings of all the arguments are below.
 - `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
 - `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
 - `outdir`: Output directory (e.g., output, mandatory)
-- `rank`: Maximum rank parameter to search (e.g., default value is 10, optional)
-- `trials`: Number of random trials (e.g., default value is 50, optional)
-- `iters`: Number of iterations (e.g., default value is 1000, optional)
-- `ratio`: Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
+- `rank`: Maximum rank parameter to search (e.g., the default value is 10, optional)
+- `trials`: Number of random trials (e.g., the default value is 50, optional)
+- `iters`: Number of iterations (e.g., the default value is 1000, optional)
+- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., the default value is 20, optional)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 - `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
 
-## Example with parallel environment (GridEngine)
+## Example with the parallel environment (GridEngine)
 
-If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
+If the `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
@@ -102,9 +102,9 @@ rank=2 trials=2 iters=2 ratio=30 \
 --cluster "qsub -l nc=4 -p -50 -r yes"
 ```
 
-## Example with parallel environment (Slurm)
+## Example with the parallel environment (Slurm)
 
-Likewise, if `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
+Likewise, if the `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
@@ -115,14 +115,14 @@ rank=2 trials=2 iters=2 ratio=30 \
 --cluster "sbatch -n 4 --nice=50 --requeue"
 ```
 
-## Example with local machine with Docker
+## Example with a local machine with Docker
 
-If `docker` command is available, the following command can be performed without installing any tools.
+If the `docker` command is available, the following command can be performed without installing any tools.
 
 **Note that `--platform linux/amd64` option is required on M1/M2 Mac.**
 
 ```bash
-docker run --platform linux/amd64 \
+docker run --platform Linux/amd64 \
 --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 -i /work/data/vaccine_tensor.npy -o /work/output \
 --cores=2 --rank=2 --trials=2 --iters=2 \

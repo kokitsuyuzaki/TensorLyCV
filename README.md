@@ -9,23 +9,32 @@
 ![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/tensorlycv.yml/badge.svg)
 ![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/release-please.yml/badge.svg)
 
-Cross validation workflow of `TensorLy`
+Cross-validation workflow of `TensorLy`
 
 `TensorLyCV` consists of the rules below:
 
 ![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
 
 # Pre-requisites (our experiment)
-- Bash: GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
 - Snakemake: v7.1.0
 - Singularity: v3.8.0
-- Docker: v20.10.7
+- Docker: v20.10.7 (Optional)
+
+`Snakemake` is available via Python package managers like `pip`, `conda`, or `mamba`.
+
+`Singularity` and `Docker` are available by the installer provided in each website or package manager for each OS like `apt-get/yum` for Linux, or `brew` for Mac.
+
+For the details, see the installation documents below.
+
+- https://snakemake.readthedocs.io/en/stable/getting_started/installation.html
+- https://docs.sylabs.io/guides/3.0/user-guide/installation.html
+- https://docs.docker.com/engine/install/
 
 Note: The following source code does not work on M1/M2 Mac. M1/M2 Mac users should refer to [README_AppleSilicon.md](README_AppleSilicon.md) instead.
 
 # Usage
 
-In this demo, we use the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine) but user can specify any user's higher-order array or tensor.
+In this demo, we use the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine) but a user can specify any user's higher-order array or tensor.
 
 ## Download this GitHub repository
 
@@ -39,7 +48,7 @@ cd TensorLyCV
 ## Download data
 
 In `TensorLyCV`, the input data is assumed to be a `Numpy` three-dimensional array saved by `numpy.save`.
-The vaccine tensor data can be downloaded as below.
+The vaccine tensor data can be downloaded below.
 
 ```bash
 mkdir -p data
@@ -49,7 +58,7 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 ## Example with local machine
 
-Next, perform `TensorLyCV` by `snakemake` command as follows.
+Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
@@ -63,17 +72,17 @@ The meanings of all the arguments are below.
 - `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
 - `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
 - `outdir`: Output directory (e.g., output, mandatory)
-- `rank`: Maximum rank parameter to search (e.g., default value is 10, optional)
-- `trials`: Number of random trials (e.g., default value is 50, optional)
-- `iters`: Number of iterations (e.g., default value is 1000, optional)
-- `ratio`: Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
+- `rank`: Maximum rank parameter to search (e.g., the default value is 10, optional)
+- `trials`: Number of random trials (e.g., the default value is 50, optional)
+- `iters`: Number of iterations (e.g., the default value is 1000, optional)
+- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., the default value is 20, optional)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 - `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
 
-## Example with parallel environment (GridEngine)
+## Example with the parallel environment (GridEngine)
 
-If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
+If the `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
@@ -82,9 +91,9 @@ rank=2 trials=2 iters=2 ratio=30 \
 --cluster "qsub -l nc=4 -p -50 -r yes"
 ```
 
-## Example with parallel environment (Slurm)
+## Example with the parallel environment (Slurm)
 
-Likewise, if `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
+Likewise, if the `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
@@ -93,9 +102,9 @@ rank=2 trials=2 iters=2 ratio=30 \
 --cluster "sbatch -n 4 --nice=50 --requeue"
 ```
 
-## Example with local machine with Docker
+## Example with a local machine with Docker
 
-If `docker` command is available, the following command can be performed without installing any tools.
+If the `docker` command is available, the following command can be performed without installing any tools.
 
 ```bash
 docker run --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
