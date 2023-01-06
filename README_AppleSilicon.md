@@ -89,32 +89,6 @@ The meanings of all the arguments are below.
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 - `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
 
-## Example with the parallel environment (GridEngine)
-
-If the `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
-
-**Note that `--use-singularity` option does not work on M1/M2 Mac.**
-
-```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 \
---cluster "qsub -l nc=4 -p -50 -r yes"
-```
-
-## Example with the parallel environment (Slurm)
-
-Likewise, if the `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
-
-**Note that `--use-singularity` option does not work on M1/M2 Mac.**
-
-```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 \
---cluster "sbatch -n 4 --nice=50 --requeue"
-```
-
 ## Example with a local machine with Docker
 
 If the `docker` command is available, the following command can be performed without installing any tools.
