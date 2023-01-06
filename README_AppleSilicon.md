@@ -1,31 +1,47 @@
-# TensorLyCV
+# Guideline for M1/M2 Mac users
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥6.0.5-brightgreen.svg)](https://snakemake.github.io)
-[![DOI](https://zenodo.org/badge/571380791.svg)](https://zenodo.org/badge/latestdoi/571380791)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/build_test_push.yml/badge.svg)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/dockerrun1.yml/badge.svg)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/dockerrun2.yml/badge.svg)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/dockerrun3.yml/badge.svg)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/tensorlycv.yml/badge.svg)
-![GitHub Actions](https://github.com/kokitsuyuzaki/TensorLyCV/actions/workflows/release-please.yml/badge.svg)
+This README is for M1/M2 Mac users.
 
-Cross validation workflow of `TensorLy`
+In our environment, `Singularity` did not work properly for M1/M2 Mac (2022/1/6).
 
-`TensorLyCV` consists of the rules below:
+Therefore, the required tools for `TensorLyCV` are not available via Docker container image file on M1/M2 Mac for now.
 
-![](https://github.com/kokitsuyuzaki/TensorLyCV/blob/main/plot/dag.png?raw=true)
+Instead, all required tools must be installed manually.
 
-# Pre-requisites (our experiment)
-- Bash: GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
-- Snakemake: v7.1.0
-- Singularity: v3.8.0
-- Docker: v20.10.7
+Here are the steps we followed on a M1 Mac.
 
-Note: The following source code does not work on M1/M2 Mac. M1/M2 Mac users should refer to [README_AppleSilicon.md](README_AppleSilicon.md) instead.
+Note that this README is not exhaustive enough to solve all possible problems.
 
-# Usage
+## Installation of all pre-requisites
 
-In this demo, we use the data from [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097) (questionnaire on adverse reactions to COVID-19 vaccine) but user can specify any user's higher-order array or tensor.
+First, we downloaded a shell script to install Mambaforge providing the minimum installer of `mamba` from Miniforge web site.
+[https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh)
+
+Then we performed the shell script as follows:
+
+```bash
+bash Mambaforge-MacOSX-arm64.sh
+```
+
+After rebooting the shell, we confirmed that `mamba` command did work as follows:
+
+```
+exec $SHELL -l
+mamba --version
+```
+
+Next, we created a `conda` environment containing the required tools in `TensorLyCV` as follows:
+
+```bash
+mamba create -c conda-forge -c bioconda -c anaconda -n tensorlycv snakemake wget tensorly seaborn matplotlib -y
+```
+
+After activating the conda environment, we confirmed that `snakemake` command did work as follows:
+
+```bash
+mamba activate tensorlycv
+snakemake --version
+```
 
 ## Download this GitHub repository
 
@@ -51,10 +67,12 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by `snakemake` command as follows.
 
+**Note that `--use-singularity` option does not work on M1/M2 Mac.**
+
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
 rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity
+--resources mem_gb=10
 ```
 
 The meanings of all the arguments are below.
@@ -75,10 +93,12 @@ The meanings of all the arguments are below.
 
 If `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
+**Note that `--use-singularity` option does not work on M1/M2 Mac.**
+
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
 rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity \
+--resources mem_gb=10 \
 --cluster "qsub -l nc=4 -p -50 -r yes"
 ```
 
@@ -86,10 +106,12 @@ rank=2 trials=2 iters=2 ratio=30 \
 
 Likewise, if `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
+**Note that `--use-singularity` option does not work on M1/M2 Mac.**
+
 ```bash
 snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
 rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity \
+--resources mem_gb=10 \
 --cluster "sbatch -n 4 --nice=50 --requeue"
 ```
 
@@ -97,16 +119,15 @@ rank=2 trials=2 iters=2 ratio=30 \
 
 If `docker` command is available, the following command can be performed without installing any tools.
 
+**Note that `--platform linux/amd64` option is required on M1/M2 Mac.**
+
 ```bash
-docker run --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
+docker run --platform linux/amd64 \
+--rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 -i /work/data/vaccine_tensor.npy -o /work/output \
 --cores=2 --rank=2 --trials=2 --iters=2 \
 --ratio=30 --memgb=100
 ```
-
-# Reference
-- [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
-- [TensorLy](http://tensorly.org/stable/index.html)
 
 # Authors
 - Koki Tsuyuzaki

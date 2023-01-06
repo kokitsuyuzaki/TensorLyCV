@@ -112,7 +112,7 @@ rule bestrank_tensorly:
 	shell:
 		'src/bestrank_tensorly.sh {input} {output} {ITERS} > {log}'
 
-rule bestrank_bestrial:
+rule bestrank_besttrial:
 	input:
 		expand(OUTDIR + '/tensorly/bestrank/{t}/error.txt',
 			t=TRIAL_INDEX)
