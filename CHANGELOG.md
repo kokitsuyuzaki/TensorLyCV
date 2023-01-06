@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.2.0...v1.3.0) (2023-01-06)
+
+
+### Features
+
+* Apple Silicon ([46616dd](https://github.com/kokitsuyuzaki/TensorLyCV/commit/46616dd4c686dee225cc6da4c1ba9ad974d4b80b))
+
+
+### Bug Fixes
+
+* README.md ([a96af10](https://github.com/kokitsuyuzaki/TensorLyCV/commit/a96af10aedcd64eec657f09cfa6d3c06961a734d))
+
 ## [1.2.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.1.0...v1.2.0) (2022-12-14)
 
 
