@@ -10,6 +10,4 @@
 #SBATCH -p node03-06
 SLURM_RESTART_COUNT=2
 
-echo $@
-
-python src/myplot_bestrank_besttrial.py $@
+python src/mytensorly_w_mask.py $@

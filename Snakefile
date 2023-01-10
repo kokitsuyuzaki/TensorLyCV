@@ -27,9 +27,13 @@ container: 'docker://koki/tensorlycv_component:latest'
 rule all:
 	input:
 		OUTDIR + '/plot/test_errors.png',
+		OUTDIR + '/plot/rec_errors.png',
 		OUTDIR + '/plot/bestrank_besttrial_factor1.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor1_pairs.png',
 		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor3.png'
+		OUTDIR + '/plot/bestrank_besttrial_factor2_pairs.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor3.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor3_pairs.png'
 
 rule check_input:
 	input:
@@ -43,43 +47,83 @@ rule check_input:
 	shell:
 		'src/check_input.sh {input} {output} >& {log}'
 
-rule tensorly:
+rule tensorly_w_mask:
 	input:
 		OUTDIR + '/CHECK_INPUT',
 		INPUT
 	output:
-		OUTDIR + '/tensorly/{cp_rank}/{t}.txt'
+		OUTDIR + '/tensorly/{cp_rank}/w_mask/{t}.txt'
 	wildcard_constraints:
 		cp_rank='|'.join([re.escape(x) for x in CP_RANKS])
 	benchmark:
-		OUTDIR + '/benchmarks/tensorly/{cp_rank}/{t}.txt'
+		OUTDIR + '/benchmarks/tensorly/{cp_rank}/w_mask/{t}.txt'
 	log:
-		OUTDIR + '/logs/tensorly/{cp_rank}/{t}.log'
+		OUTDIR + '/logs/tensorly/{cp_rank}/w_mask/{t}.log'
 	shell:
-		'src/tensorly.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
+		'src/tensorly_w_mask.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
 
-rule aggregate_tensorly:
+rule tensorly_wo_mask:
 	input:
-		expand(OUTDIR + '/tensorly/{cp_rank}/{t}.txt',
+		OUTDIR + '/CHECK_INPUT',
+		INPUT
+	output:
+		OUTDIR + '/tensorly/{cp_rank}/wo_mask/{t}.txt'
+	wildcard_constraints:
+		cp_rank='|'.join([re.escape(x) for x in CP_RANKS])
+	benchmark:
+		OUTDIR + '/benchmarks/tensorly/{cp_rank}/wo_mask/{t}.txt'
+	log:
+		OUTDIR + '/logs/tensorly/{cp_rank}/wo_mask/{t}.log'
+	shell:
+		'src/tensorly_wo_mask.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
+
+rule aggregate_tensorly_w_mask:
+	input:
+		expand(OUTDIR + '/tensorly/{cp_rank}/w_mask/{t}.txt',
 			cp_rank=CP_RANKS, t=TRIAL_INDEX)
 	output:
 		OUTDIR + '/tensorly/test_errors.csv'
 	benchmark:
-		OUTDIR + '/benchmarks/aggregate_tensorly.txt'
+		OUTDIR + '/benchmarks/aggregate_tensorly_w_mask.txt'
 	log:
-		OUTDIR + '/logs/aggregate_tensorly.log'
+		OUTDIR + '/logs/aggregate_tensorly_w_mask.log'
 	shell:
-		'src/aggregate_tensorly.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
+		'src/aggregate_tensorly_w_mask.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
 
-rule plot_tensorly:
+rule aggregate_tensorly_wo_mask:
+	input:
+		expand(OUTDIR + '/tensorly/{cp_rank}/wo_mask/{t}.txt',
+			cp_rank=CP_RANKS, t=TRIAL_INDEX)
+	output:
+		OUTDIR + '/tensorly/rec_errors.csv'
+	benchmark:
+		OUTDIR + '/benchmarks/aggregate_tensorly_wo_mask.txt'
+	log:
+		OUTDIR + '/logs/aggregate_tensorly_wo_mask.log'
+	shell:
+		'src/aggregate_tensorly_wo_mask.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
+
+rule plot_tensorly_w_mask:
 	input:
 		OUTDIR + '/tensorly/test_errors.csv'
 	output:
 		OUTDIR + '/plot/test_errors.png'
 	benchmark:
-		OUTDIR + '/benchmarks/plot_tensorly.txt'
+		OUTDIR + '/benchmarks/plot_tensorly_w_mask.txt'
 	log:
-		OUTDIR + '/logs/plot_tensorly.log'
+		OUTDIR + '/logs/plot_tensorly_w_mask.log'
+	shell:
+		'src/plot_tensorly.sh {input} {output} > {log}'
+
+rule plot_tensorly_wo_mask:
+	input:
+		OUTDIR + '/tensorly/rec_errors.csv'
+	output:
+		OUTDIR + '/plot/rec_errors.png'
+	benchmark:
+		OUTDIR + '/benchmarks/plot_tensorly_wo_mask.txt'
+	log:
+		OUTDIR + '/logs/plot_tensorly_wo_mask.log'
 	shell:
 		'src/plot_tensorly.sh {input} {output} > {log}'
 
@@ -119,13 +163,13 @@ rule bestrank_besttrial:
 	output:
 		OUTDIR + '/tensorly/bestrank/besttrial.txt'
 	benchmark:
-		OUTDIR + '/benchmarks/bestrank_bestrial.txt'
+		OUTDIR + '/benchmarks/bestrank_besttrial.txt'
 	log:
-		OUTDIR + '/logs/bestrank_bestrial.log'
+		OUTDIR + '/logs/bestrank_besttrial.log'
 	shell:
-		'src/bestrank_bestrial.sh {OUTDIR} {output} > {log}'
+		'src/bestrank_besttrial.sh {OUTDIR} {output} > {log}'
 
-rule plot_bestrank_besttrial:
+rule barplot_bestrank_besttrial:
 	input:
 		OUTDIR + '/tensorly/bestrank/besttrial.txt'
 	output:
@@ -133,8 +177,22 @@ rule plot_bestrank_besttrial:
 		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
 		OUTDIR + '/plot/bestrank_besttrial_factor3.png'
 	benchmark:
-		OUTDIR + '/benchmarks/plot_bestrank_besttrial.txt'
+		OUTDIR + '/benchmarks/barplot_bestrank_besttrial.txt'
 	log:
-		OUTDIR + '/logs/plot_bestrank_besttrial.log'
+		OUTDIR + '/logs/barplot_bestrank_besttrial.log'
 	shell:
-		'src/plot_bestrank_besttrial.sh {input} {output} {OUTDIR} > {log}'
+		'src/barplot_bestrank_besttrial.sh {input} {output} {OUTDIR} > {log}'
+
+rule pairplot_bestrank_besttrial:
+	input:
+		OUTDIR + '/tensorly/bestrank/besttrial.txt'
+	output:
+		OUTDIR + '/plot/bestrank_besttrial_factor1_pairs.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor2_pairs.png',
+		OUTDIR + '/plot/bestrank_besttrial_factor3_pairs.png'
+	benchmark:
+		OUTDIR + '/benchmarks/pairplot_bestrank_besttrial.txt'
+	log:
+		OUTDIR + '/logs/pairplot_bestrank_besttrial.log'
+	shell:
+		'src/pairplot_bestrank_besttrial.sh {input} {output} {OUTDIR} > {log}'

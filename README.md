@@ -18,7 +18,7 @@ Cross-validation workflow of `TensorLy`
 # Pre-requisites (our experiment)
 - Snakemake: v7.1.0
 - Singularity: v3.8.0
-- Docker: v20.10.7 (Optional)
+- Docker: v20.10.7 (optional)
 
 `Snakemake` is available via Python package managers like `pip`, `conda`, or `mamba`.
 
@@ -30,7 +30,7 @@ For the details, see the installation documents below.
 - https://docs.sylabs.io/guides/3.0/user-guide/installation.html
 - https://docs.docker.com/engine/install/
 
-Note: The following source code does not work on M1/M2 Mac. M1/M2 Mac users should refer to [README_AppleSilicon.md](README_AppleSilicon.md) instead.
+**Note: The following source code does not work on M1/M2 Mac. M1/M2 Mac users should refer to [README_AppleSilicon.md](README_AppleSilicon.md) instead.**
 
 # Usage
 
@@ -60,9 +60,11 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
+**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
+snakemake -j 4 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=20 \
 --resources mem_gb=10 --use-singularity
 ```
 
@@ -72,10 +74,10 @@ The meanings of all the arguments are below.
 - `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
 - `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
 - `outdir`: Output directory (e.g., output, mandatory)
-- `rank`: Maximum rank parameter to search (e.g., the default value is 10, optional)
-- `trials`: Number of random trials (e.g., the default value is 50, optional)
-- `iters`: Number of iterations (e.g., the default value is 1000, optional)
-- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., the default value is 20, optional)
+- `rank`: Maximum rank parameter to search (e.g., 10, optional)
+- `trials`: Number of random trials (e.g., 50, optional)
+- `iters`: Number of iterations (e.g., 1000, optional)
+- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 20, optional)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 - `--use-singularity`: Snakemake option to use Docker containers via [`Singularity`](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) (mandatory)
@@ -84,33 +86,39 @@ The meanings of all the arguments are below.
 
 If the `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
+**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity \
---cluster "qsub -l nc=4 -p -50 -r yes"
+snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=20 \
+--resources mem_gb=100 --use-singularity \
+--cluster "qsub -l nc=4 -p -50 -r yes" --latency-wait 60
 ```
 
 ## Example with the parallel environment (Slurm)
 
 Likewise, if the `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
+**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+
 ```bash
-snakemake -j 2 --config input=data/vaccine_tensor.npy outdir=output \
-rank=2 trials=2 iters=2 ratio=30 \
---resources mem_gb=10 --use-singularity \
---cluster "sbatch -n 4 --nice=50 --requeue"
+snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
+rank=10 trials=50 iters=1000 ratio=20 \
+--resources mem_gb=100 --use-singularity \
+--cluster "sbatch -n 4 --nice=50 --requeue" --latency-wait 60
 ```
 
 ## Example with a local machine with Docker
 
 If the `docker` command is available, the following command can be performed without installing any tools.
 
+**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+
 ```bash
 docker run --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 -i /work/data/vaccine_tensor.npy -o /work/output \
---cores=2 --rank=2 --trials=2 --iters=2 \
---ratio=30 --memgb=100
+--cores=4 --rank=10 --trials=50 --iters=1000 \
+--ratio=20 --memgb=10
 ```
 
 # Reference

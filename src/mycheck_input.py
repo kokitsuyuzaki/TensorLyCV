@@ -11,5 +11,5 @@ infile = args[1]
 tnsr = np.load(infile)
 
 if len(tnsr.shape) != 3:
-    print("The dimension of data tensor must be 3")
+    print("The dimension of data tensor must be 3 for now")
     quit()
