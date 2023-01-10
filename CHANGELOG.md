@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.3.0...v1.4.0) (2023-01-10)
+
+
+### Features
+
+* pairplot/barplot, rec_error/test_error, typo ([a680304](https://github.com/kokitsuyuzaki/TensorLyCV/commit/a680304d6a2dc1c4710ed59fb9b52e110a2b0d12))
+
 ## [1.3.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.2.0...v1.3.0) (2023-01-06)
 
 
