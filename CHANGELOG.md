@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.4.0...v1.5.0) (2023-01-25)
+
+
+### Features
+
+* Any-order tensor ([8bc8353](https://github.com/kokitsuyuzaki/TensorLyCV/commit/8bc835334143302979d8fde5901deb9182152705))
+
 ## [1.4.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.3.0...v1.4.0) (2023-01-10)
 
 
