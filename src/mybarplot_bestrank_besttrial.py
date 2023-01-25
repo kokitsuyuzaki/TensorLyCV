@@ -8,11 +8,10 @@ import seaborn as sns
 
 # Arguments
 args = sys.argv
-infile = args[1]
-outfile1 = args[2]
-outfile2 = args[3]
-outfile3 = args[4]
-outdir = args[5]
+infile1 = args[1]
+infile2 = args[2]
+outfile = args[3]
+outdir = args[4]
 
 # Functions
 def BarPlotLarge(factor, outfile):
@@ -46,15 +45,12 @@ def BarPlot(factor, outfile):
 		BarPlotSmall(factor, outfile)
 
 # Loading
-best_trial = int(np.loadtxt(infile))
-factor_file1 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor1.csv"
-factor_file2 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor2.csv"
-factor_file3 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor3.csv"
-factor1 = pd.read_csv(factor_file1, header=None)
-factor2 = pd.read_csv(factor_file2, header=None)
-factor3 = pd.read_csv(factor_file3, header=None)
+tnsr = np.load(infile1)
+best_trial = int(np.loadtxt(infile2))
 
 # Plot Factor matrix
-BarPlot(factor1, outfile1)
-BarPlot(factor2, outfile2)
-BarPlot(factor3, outfile3)
+for i in range(len(tnsr.shape)):
+	factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor" + str(i+1) + ".csv"
+	factor_outfile = outfile.replace("FINISH", "factor" + str(i+1) + ".png")
+	factor = pd.read_csv(factor_infile, header=None)
+	print(BarPlot(factor, factor_outfile))

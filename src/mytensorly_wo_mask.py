@@ -7,11 +7,11 @@ import tensorly.cp_tensor as tsc
 
 # Arguments
 args = sys.argv
-infile = args[2]
-outfile = args[3]
-cp_rank = int(args[4])
-n_iter_max = int(args[5])
-ratio = int(args[6])
+infile = args[1]
+outfile = args[2]
+cp_rank = int(args[3])
+n_iter_max = int(args[4])
+ratio = int(args[5])
 
 # Functions
 def rec_error(tensor, rec_tensor):

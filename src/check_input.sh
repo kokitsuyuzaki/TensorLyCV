@@ -10,8 +10,4 @@
 #SBATCH -p node03-06
 SLURM_RESTART_COUNT=2
 
-echo $@
-
-python src/mycheck_input.py $1
-
-touch $2
+python src/mycheck_input.py $@

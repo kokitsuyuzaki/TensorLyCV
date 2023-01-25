@@ -28,18 +28,14 @@ rule all:
 	input:
 		OUTDIR + '/plot/test_errors.png',
 		OUTDIR + '/plot/rec_errors.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor1.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor1_pairs.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor2_pairs.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor3.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor3_pairs.png'
+		OUTDIR + '/plot/bestrank_besttrial_barplot_FINISH',
+		OUTDIR + '/plot/bestrank_besttrial_pairplot_FINISH'
 
 rule check_input:
 	input:
 		INPUT
 	output:
-		OUTDIR + '/CHECK_INPUT'
+		OUTDIR + '/FLOAT_DATA.npy'
 	benchmark:
 		OUTDIR + '/benchmarks/check_input.txt'
 	log:
@@ -49,8 +45,7 @@ rule check_input:
 
 rule tensorly_w_mask:
 	input:
-		OUTDIR + '/CHECK_INPUT',
-		INPUT
+		OUTDIR + '/FLOAT_DATA.npy'
 	output:
 		OUTDIR + '/tensorly/{cp_rank}/w_mask/{t}.txt'
 	wildcard_constraints:
@@ -64,8 +59,7 @@ rule tensorly_w_mask:
 
 rule tensorly_wo_mask:
 	input:
-		OUTDIR + '/CHECK_INPUT',
-		INPUT
+		OUTDIR + '/FLOAT_DATA.npy'
 	output:
 		OUTDIR + '/tensorly/{cp_rank}/wo_mask/{t}.txt'
 	wildcard_constraints:
@@ -141,12 +135,10 @@ rule bestrank:
 
 rule bestrank_tensorly:
 	input:
-		INPUT,
+		OUTDIR + '/FLOAT_DATA.npy',
 		OUTDIR + '/tensorly/bestrank.txt'
 	output:
-		OUTDIR + '/tensorly/bestrank/{t}/factor1.csv',
-		OUTDIR + '/tensorly/bestrank/{t}/factor2.csv',
-		OUTDIR + '/tensorly/bestrank/{t}/factor3.csv',
+		OUTDIR + '/tensorly/bestrank/{t}/FINISH',
 		OUTDIR + '/tensorly/bestrank/{t}/error.txt',
 		OUTDIR + '/tensorly/bestrank/{t}/tensorly.pkl'
 	benchmark:
@@ -171,11 +163,10 @@ rule bestrank_besttrial:
 
 rule barplot_bestrank_besttrial:
 	input:
+		OUTDIR + '/FLOAT_DATA.npy',
 		OUTDIR + '/tensorly/bestrank/besttrial.txt'
 	output:
-		OUTDIR + '/plot/bestrank_besttrial_factor1.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor2.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor3.png'
+		OUTDIR + '/plot/bestrank_besttrial_barplot_FINISH'
 	benchmark:
 		OUTDIR + '/benchmarks/barplot_bestrank_besttrial.txt'
 	log:
@@ -185,11 +176,10 @@ rule barplot_bestrank_besttrial:
 
 rule pairplot_bestrank_besttrial:
 	input:
+		OUTDIR + '/FLOAT_DATA.npy',
 		OUTDIR + '/tensorly/bestrank/besttrial.txt'
 	output:
-		OUTDIR + '/plot/bestrank_besttrial_factor1_pairs.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor2_pairs.png',
-		OUTDIR + '/plot/bestrank_besttrial_factor3_pairs.png'
+		OUTDIR + '/plot/bestrank_besttrial_pairplot_FINISH'
 	benchmark:
 		OUTDIR + '/benchmarks/pairplot_bestrank_besttrial.txt'
 	log:

@@ -9,11 +9,11 @@ import tensorly.cp_tensor as tsc
 
 # Arguments
 args = sys.argv
-infile = args[2]
-outfile = args[3]
-cp_rank = int(args[4])
-n_iter_max = int(args[5])
-ratio = int(args[6])
+infile = args[1]
+outfile = args[2]
+cp_rank = int(args[3])
+n_iter_max = int(args[4])
+ratio = int(args[5])
 
 # Functions
 def test_error(tensor, mask_tensor, rec_tensor):
@@ -36,7 +36,13 @@ no_sample = math.floor(len(indices[0]) * ratio / 100)
 # Add Noise to Mask Tensor
 mask_tnsr2 = np.copy(mask_tnsr)
 target = rd.sample(sample_loc, no_sample)
-mask_tnsr2[indices[0][target], indices[1][target], indices[2][target]] = 0
+
+cmd = "mask_tnsr2["
+for i in range(len(tnsr.shape)-1):
+    cmd = cmd + "indices[" + str(i) + "][target],"
+
+cmd = cmd + "indices[" + str(len(tnsr.shape)-1) + "][target]] = 0"
+exec(cmd)
 
 # Non-negative CP Decomposition
 res = tsd.non_negative_parafac(tensor=tnsr, mask=mask_tnsr2, n_iter_max=n_iter_max, rank=cp_rank, init='svd', verbose=True)

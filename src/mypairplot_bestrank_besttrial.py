@@ -8,11 +8,10 @@ import seaborn as sns
 
 # Arguments
 args = sys.argv
-infile = args[1]
-outfile1 = args[2]
-outfile2 = args[3]
-outfile3 = args[4]
-outdir = args[5]
+infile1 = args[1]
+infile2 = args[2]
+outfile = args[3]
+outdir = args[4]
 
 # Functions
 def assign_cluster(factor):
@@ -33,25 +32,20 @@ def PairPlot(factor, mycolor, outfile):
 	plt.close('all')
 
 # Loading
-best_trial = int(np.loadtxt(infile))
-factor_file1 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor1.csv"
-factor_file2 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor2.csv"
-factor_file3 = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor3.csv"
-factor1 = pd.read_csv(factor_file1, header=None)
-factor2 = pd.read_csv(factor_file2, header=None)
-factor3 = pd.read_csv(factor_file3, header=None)
+tnsr = np.load(infile1)
+best_trial = int(np.loadtxt(infile2))
 
 # Setting Color
+factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor1.csv"
+factor1 = pd.read_csv(factor_infile, header=None)
 mycolor = dict(zip(
 	list(range(0, factor1.shape[1])),
 	sns.color_palette("Dark2", factor1.shape[1]),))
 
-# Assign Cluster Label
-factor_cluster1 = assign_cluster(factor1)
-factor_cluster2 = assign_cluster(factor2)
-factor_cluster3 = assign_cluster(factor3)
-
-# Plot Factor matrix 1
-PairPlot(factor_cluster1, mycolor, outfile1)
-PairPlot(factor_cluster2, mycolor, outfile2)
-PairPlot(factor_cluster3, mycolor, outfile3)
+# Plot Factor matrix
+for i in range(len(tnsr.shape)):
+	factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor" + str(i+1) + ".csv"
+	factor_outfile = outfile.replace("FINISH", "factor" + str(i+1) + ".png")
+	factor = pd.read_csv(factor_infile, header=None)
+	factor_cluster = assign_cluster(factor)
+	print(PairPlot(factor_cluster, mycolor, factor_outfile))
