@@ -13,7 +13,7 @@ outfile = args[2]
 df = pd.read_csv(infile)
 
 # Minimum median index
-error = int(df.median().idxmin())
+best_rank = int(df.median().idxmin())
 
 # Save
-np.savetxt(outfile, [error], fmt="%d")
+np.savetxt(outfile, [best_rank], fmt="%d")
