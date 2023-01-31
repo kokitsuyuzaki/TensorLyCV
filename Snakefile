@@ -4,7 +4,7 @@ from snakemake.utils import min_version
 # Setting
 #################################
 # Minimum Version of Snakemake
-min_version("7.20.0")
+min_version("6.0.5")
 
 # Required Arguments
 INPUT = config["input"]
