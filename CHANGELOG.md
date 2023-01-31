@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.5.0...v1.6.0) (2023-01-31)
+
+
+### Features
+
+* barplot & pairplot for all the ranks ([d6ccc5f](https://github.com/kokitsuyuzaki/TensorLyCV/commit/d6ccc5ff99a938d13947f10f01c93a0e3e411d86))
+* barplot & pairplot for all the ranks ([e4dec2e](https://github.com/kokitsuyuzaki/TensorLyCV/commit/e4dec2eda87a1c7238ec7791f70050a50a10751f))
+* barplot & pairplot for all the ranks ([6b6d6ca](https://github.com/kokitsuyuzaki/TensorLyCV/commit/6b6d6ca14b6f1295a3f0d17ad9975776bca8bdce))
+
+
+### Bug Fixes
+
+* rm bestrank_tensorly/bestrank_besttrial ([3a4e499](https://github.com/kokitsuyuzaki/TensorLyCV/commit/3a4e4991b4e5fcca9f0e354d9e0f3dfa06398031))
+
 ## [1.5.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.4.0...v1.5.0) (2023-01-25)
 
 
