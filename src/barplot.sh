@@ -10,6 +10,6 @@
 #SBATCH -p node03-06
 SLURM_RESTART_COUNT=2
 
-python src/mybestrank_tensorly.py $@
+python src/mybarplot.py $@
 
 touch $3

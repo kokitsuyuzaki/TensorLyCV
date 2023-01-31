@@ -11,7 +11,6 @@ args = sys.argv
 infile1 = args[1]
 infile2 = args[2]
 outfile = args[3]
-outdir = args[4]
 
 # Functions
 def BarPlotLarge(factor, outfile):
@@ -46,11 +45,11 @@ def BarPlot(factor, outfile):
 
 # Loading
 tnsr = np.load(infile1)
-best_trial = int(np.loadtxt(infile2))
 
 # Plot Factor matrix
+indir = infile2.replace('FINISH', '')
 for i in range(len(tnsr.shape)):
-	factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor" + str(i+1) + ".csv"
+	factor_infile = indir + "factor" + str(i+1) + ".csv"
 	factor_outfile = outfile.replace("FINISH", "factor" + str(i+1) + ".png")
 	factor = pd.read_csv(factor_infile, header=None)
 	print(BarPlot(factor, factor_outfile))

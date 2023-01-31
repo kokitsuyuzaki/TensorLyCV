@@ -11,7 +11,6 @@ args = sys.argv
 infile1 = args[1]
 infile2 = args[2]
 outfile = args[3]
-outdir = args[4]
 
 # Functions
 def assign_cluster(factor):
@@ -26,17 +25,17 @@ def PairPlot(factor, mycolor, outfile):
 	g = sns.PairGrid(factor, hue="cluster", palette=mycolor)
 	g.map_diag(sns.histplot)
 	g.map_upper(sns.scatterplot)
-	g.map_lower(sns.kdeplot)
+	g.map_lower(sns.scatterplot)
 	g.add_legend()
 	plt.savefig(outfile)
 	plt.close('all')
 
 # Loading
 tnsr = np.load(infile1)
-best_trial = int(np.loadtxt(infile2))
 
 # Setting Color
-factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor1.csv"
+indir = infile2.replace('FINISH', '')
+factor_infile = indir + "factor1.csv"
 factor1 = pd.read_csv(factor_infile, header=None)
 mycolor = dict(zip(
 	list(range(0, factor1.shape[1])),
@@ -44,7 +43,7 @@ mycolor = dict(zip(
 
 # Plot Factor matrix
 for i in range(len(tnsr.shape)):
-	factor_infile = outdir + "/tensorly/bestrank/" + str(best_trial) + "/factor" + str(i+1) + ".csv"
+	factor_infile = indir + "factor" + str(i+1) + ".csv"
 	factor_outfile = outfile.replace("FINISH", "factor" + str(i+1) + ".png")
 	factor = pd.read_csv(factor_infile, header=None)
 	factor_cluster = assign_cluster(factor)

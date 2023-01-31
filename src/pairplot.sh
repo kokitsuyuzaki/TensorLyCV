@@ -10,6 +10,6 @@
 #SBATCH -p node03-06
 SLURM_RESTART_COUNT=2
 
-python src/mybarplot_bestrank_besttrial.py $@
+python src/mypairplot.py $@
 
 touch $3
