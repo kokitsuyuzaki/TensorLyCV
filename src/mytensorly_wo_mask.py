@@ -23,6 +23,9 @@ def rec_error(tensor, rec_tensor):
 # Loading Data Tensor
 tnsr = np.load(infile)
 
+# Assign 0 to nan
+tnsr = np.nan_to_num(tnsr, nan = 0)
+
 # Non-negative CP Decomposition
 res = tsd.non_negative_parafac(tensor=tnsr, n_iter_max=n_iter_max, rank=cp_rank, init='svd', verbose=True)
 

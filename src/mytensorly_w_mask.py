@@ -26,10 +26,10 @@ tnsr = np.load(infile)
 
 # Mask Tensor
 mask_tnsr = np.copy(tnsr)
-mask_tnsr = np.where(mask_tnsr != 0, 1, 0)
+mask_tnsr = np.where(np.isnan(mask_tnsr), 0, 1)
 
 # Setting for Random Sampling
-indices = np.nonzero(mask_tnsr)
+indices = np.where((tnsr != 0) & ~np.isnan(tnsr))
 sample_loc = list(range(len(indices[0])))
 no_sample = math.floor(len(indices[0]) * ratio / 100)
 
@@ -43,6 +43,9 @@ for i in range(len(tnsr.shape)-1):
 
 cmd = cmd + "indices[" + str(len(tnsr.shape)-1) + "][target]] = 0"
 exec(cmd)
+
+# Assign 0 to nan
+tnsr = np.nan_to_num(tnsr, nan = 0)
 
 # Non-negative CP Decomposition
 res = tsd.non_negative_parafac(tensor=tnsr, mask=mask_tnsr2, n_iter_max=n_iter_max, rank=cp_rank, init='svd', verbose=True)
