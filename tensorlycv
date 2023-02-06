@@ -3,7 +3,7 @@
 # Help page
 showHelp() {
     cat << EOF
-Usage: ./tensorlycv -i <input-file> -o <output-directory> [--cores/--rank/--trials/--iters/--ratio/--memgb/-h/-v]
+Usage: ./tensorlycv -i <input-file> -o <output-directory> [--cores/--rank_min/--rank_max/--trials/--n_iter_max/--ratio/--memgb/-h/-v]
 Cross validation workflow of TensorLy
 
     -i, -input,         --input                 Input file (e.g., data/vaccine_tensor.npy, mandatory)
@@ -12,11 +12,13 @@ Cross validation workflow of TensorLy
 
     -c, -cores,         --cores                 Number of cores to use Snakemake (e.g., default value is 10, optional)
 
-    -r, -rank,          --rank                  Maximum rank parameter to search (e.g., default value is 10, optional)
+    -l, -rank_min,          --rank_min                  Lower limit of rank parameter to search (e.g., default value is 10, optional)
+
+    -u, -rank_max,          --rank_max                  Upper limit of rank parameter to search (e.g., default value is 10, optional)
 
     -t, -trials,        --trials                Number of random trials (e.g., default value is 50, optional)
 
-    -e, -iters,         --iters                 Number of iterations (e.g., default value is 1000, optional)
+    -e, -n_iter_max,         --n_iter_max                 Number of iterations (e.g., default value is 1000, optional)
 
     -a, -ratio,         --ratio                 Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
 
@@ -33,15 +35,16 @@ EOF
 INPUT=""
 OUTDIR=""
 CORES=10
-RANK=10
+RANK_MIN=1
+RANK_MAX=10
 TRIALS=50
-ITERS=1000
+N_ITER_MAX=1000
 RATIO=20
 MEMGB=10
 VERSION="v1.7.0"
 
 # Command Argument Parsing
-while getopts i:o:c:r:t:e:a:m:h-:v- opt; do
+while getopts i:o:c:l:u:t:e:a:m:h-:v- opt; do
 	optarg="$OPTARG"
 	[[ "$opt" = - ]] &&
 	    opt="-${OPTARG%%=*}" &&
@@ -57,14 +60,17 @@ while getopts i:o:c:r:t:e:a:m:h-:v- opt; do
         -c|--cores)
             CORES="$optarg"
             ;;
-        -r|--rank)
-            RANK="$optarg"
+        -l|--rank_min)
+            RANK_MIN="$optarg"
+            ;;
+        -u|--rank_max)
+            RANK_MAX="$optarg"
             ;;
         -t|--trials)
             TRIALS="$optarg"
             ;;
-        -e|--iters)
-            ITERS="$optarg"
+        -e|--n_iter_max)
+            N_ITER_MAX="$optarg"
             ;;
         -a|--ratio)
             RATIO="$optarg"
@@ -89,5 +95,5 @@ shift $((OPTIND - 1))
 
 # Perform Snakemake Workflow
 snakemake -j $CORES --config input=$INPUT outdir=$OUTDIR \
-rank=$RANK trials=$TRIALS iters=$ITERS ratio=$RATIO \
---resources mem_gb=$MEMGB
+rank_min=$RANK_MIN rank_max=$RANK_MAX trials=$TRIALS \
+n_iter_max=$N_ITER_MAX ratio=$RATIO --resources mem_gb=$MEMGB

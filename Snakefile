@@ -11,11 +11,12 @@ INPUT = config["input"]
 OUTDIR = config["outdir"]
 
 # Optional Arguments
-CP_MAX_RANK = int(config["rank"])
-CP_RANKS = [str(x) for x in list(range(1, CP_MAX_RANK + 1))]
+RANK_MIN = int(config["rank_min"])
+RANK_MAX = int(config["rank_max"])
+CP_RANKS = [str(x) for x in list(range(RANK_MIN, RANK_MAX + 1))]
 TRIALS = int(config["trials"])
 TRIAL_INDEX = [str(x) for x in list(range(1, TRIALS+1))]
-ITERS = int(config["iters"])
+N_ITER_MAX = int(config["n_iter_max"])
 RATIO = int(config["ratio"])
 
 # Docker Container
@@ -57,7 +58,7 @@ rule tensorly_w_mask:
 	log:
 		OUTDIR + '/logs/tensorly/{cp_rank}/w_mask/{t}.log'
 	shell:
-		'src/tensorly_w_mask.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
+		'src/tensorly_w_mask.sh {input} {output} {wildcards.cp_rank} {N_ITER_MAX} {RATIO} > {log}'
 
 rule tensorly_wo_mask:
 	input:
@@ -73,7 +74,7 @@ rule tensorly_wo_mask:
 	log:
 		OUTDIR + '/logs/tensorly/{cp_rank}/wo_mask/{t}.log'
 	shell:
-		'src/tensorly_wo_mask.sh {input} {output} {wildcards.cp_rank} {ITERS} {RATIO} > {log}'
+		'src/tensorly_wo_mask.sh {input} {output} {wildcards.cp_rank} {N_ITER_MAX} {RATIO} > {log}'
 
 rule aggregate_tensorly_w_mask:
 	input:
@@ -86,7 +87,7 @@ rule aggregate_tensorly_w_mask:
 	log:
 		OUTDIR + '/logs/aggregate_tensorly_w_mask.log'
 	shell:
-		'src/aggregate_tensorly_w_mask.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
+		'src/aggregate_tensorly_w_mask.sh {RANK_MIN} {RANK_MAX} {TRIALS} {OUTDIR} {output} > {log}'
 
 rule aggregate_tensorly_wo_mask:
 	input:
@@ -100,7 +101,7 @@ rule aggregate_tensorly_wo_mask:
 	log:
 		OUTDIR + '/logs/aggregate_tensorly_wo_mask.log'
 	shell:
-		'src/aggregate_tensorly_wo_mask.sh {CP_MAX_RANK} {TRIALS} {OUTDIR} {output} > {log}'
+		'src/aggregate_tensorly_wo_mask.sh {RANK_MIN} {RANK_MAX} {TRIALS} {OUTDIR} {output} > {log}'
 
 rule plot_test_error:
 	input:

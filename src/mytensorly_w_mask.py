@@ -50,7 +50,10 @@ tnsr = np.nan_to_num(tnsr, nan = 0)
 # Non-negative CP Decomposition
 res = tsd.non_negative_parafac(tensor=tnsr, mask=mask_tnsr2, n_iter_max=n_iter_max, rank=cp_rank, init='svd', verbose=True)
 res = tsc.cp_to_tensor(res)
-error = test_error(tnsr, mask_tnsr2, res)
+
+# Error
+mask_tnsr3 = 1 - mask_tnsr + mask_tnsr2
+error = test_error(tnsr, mask_tnsr3, res)
 
 # Save
 np.savetxt(outfile, [error])

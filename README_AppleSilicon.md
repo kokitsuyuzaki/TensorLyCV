@@ -67,13 +67,13 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
-**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
 ```bash
 snakemake -j 4 --config input=data/vaccine_tensor.npy outdir=output \
-rank=10 trials=50 iters=1000 ratio=20 \
+rank_min=1 rank_max=10 trials=50 n_iter_max=1000 ratio=20 \
 --resources mem_gb=10
 ```
 
@@ -83,10 +83,11 @@ The meanings of all the arguments are below.
 - `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
 - `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
 - `outdir`: Output directory (e.g., output, mandatory)
-- `rank`: Maximum rank parameter to search (e.g., 10, optional)
-- `trials`: Number of random trials (e.g., 50, optional)
-- `iters`: Number of iterations (e.g., 1000, optional)
-- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 20, optional)
+- `rank_min`: Lower limit of rank parameter to search (e.g., 1, mandatory)
+- `rank_max`: Upper limit of rank parameter to search (e.g., 10, mandatory)
+- `trials`: Number of random trials (e.g., 50, mandatory)
+- `n_iter_max`: Number of iterations (e.g., 1000, mandatory)
+- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 20, mandatory)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 
@@ -94,7 +95,7 @@ The meanings of all the arguments are below.
 
 If the `docker` command is available, the following command can be performed without installing any tools.
 
-**Note: To check the operation, set smaller parameters such as rank=2 trials=2 iters=2.**
+**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 **Note that `--platform linux/amd64` option is required on M1/M2 Mac.**
 
@@ -102,8 +103,8 @@ If the `docker` command is available, the following command can be performed wit
 docker run --platform Linux/amd64 \
 --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 -i /work/data/vaccine_tensor.npy -o /work/output \
---cores=4 --rank=10 --trials=50 --iters=1000 \
---ratio=20 --memgb=10
+--cores=4 --rank_min=1 --rank_max=10 --trials=50 \
+--n_iter_max=1000 --ratio=20 --memgb=10
 ```
 
 # Authors
