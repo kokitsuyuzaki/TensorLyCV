@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.6.0...v1.7.0) (2023-02-06)
+
+
+### Features
+
+* rank_min/rank_max ([6f2dffe](https://github.com/kokitsuyuzaki/TensorLyCV/commit/6f2dffeb17bb32089f90a1a7539f72d7f086dbdc))
+* rank_min/rank_max ([d46d90f](https://github.com/kokitsuyuzaki/TensorLyCV/commit/d46d90f9162f68505e8f7f4d448b9ff94ef0d481))
+
+
+### Bug Fixes
+
+* masking ([d9e5b3d](https://github.com/kokitsuyuzaki/TensorLyCV/commit/d9e5b3da9253fe6b27a5b1ae0fc9b4a545208c25))
+
 ## [1.6.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.5.0...v1.6.0) (2023-01-31)
 
 
