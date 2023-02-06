@@ -60,7 +60,7 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 ```bash
 snakemake -j 4 --config input=data/vaccine_tensor.npy outdir=output \
@@ -87,7 +87,7 @@ The meanings of all the arguments are below.
 
 If the `GridEngine` (`qsub` command) is available in your environment, you can add the `qsub` command. Just adding the `--cluster` option, the jobs are submitted to multiple nodes and the computations are distributed.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 ```bash
 snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
@@ -100,7 +100,7 @@ rank_min=1 rank_max=10 trials=50 n_iter_max=1000 ratio=20 \
 
 Likewise, if the `Slurm` (`sbatch` command) is available in your environment, you can add the `sbatch` command after the `--cluster` option.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 ```bash
 snakemake -j 32 --config input=data/vaccine_tensor.npy outdir=output \
@@ -113,7 +113,7 @@ rank_min=1 rank_max=10 trials=50 n_iter_max=1000 ratio=20 \
 
 If the `docker` command is available, the following command can be performed without installing any tools.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 ```bash
 docker run --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \

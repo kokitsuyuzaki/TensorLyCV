@@ -67,7 +67,7 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
@@ -95,7 +95,7 @@ The meanings of all the arguments are below.
 
 If the `docker` command is available, the following command can be performed without installing any tools.
 
-**Note: To check the operation, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
 
 **Note that `--platform linux/amd64` option is required on M1/M2 Mac.**
 
