@@ -73,7 +73,7 @@ Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
 ```bash
 snakemake -j 4 --config input=data/vaccine_tensor.npy outdir=output \
-rank_min=1 rank_max=10 trials=50 n_iter_max=1000 ratio=20 \
+rank_min=1 rank_max=10 trials=50 n_iter_max=1000 ratio=30 \
 --resources mem_gb=10
 ```
 
@@ -87,7 +87,7 @@ The meanings of all the arguments are below.
 - `rank_max`: Upper limit of rank parameter to search (e.g., 10, mandatory)
 - `trials`: Number of random trials (e.g., 50, mandatory)
 - `n_iter_max`: Number of iterations (e.g., 1000, mandatory)
-- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 20, mandatory)
+- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 30, mandatory)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 
@@ -104,7 +104,7 @@ docker run --platform Linux/amd64 \
 --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 -i /work/data/vaccine_tensor.npy -o /work/output \
 --cores=4 --rank_min=1 --rank_max=10 --trials=50 \
---n_iter_max=1000 --ratio=20 --memgb=10
+--n_iter_max=1000 --ratio=30 --memgb=10
 ```
 
 # Authors
