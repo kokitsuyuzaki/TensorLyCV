@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.7.0...v1.7.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* Added Comments ([ce92ef5](https://github.com/kokitsuyuzaki/TensorLyCV/commit/ce92ef5515966a958f03b838c3a0b86a4f9a3140))
+
 ## [1.7.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.6.0...v1.7.0) (2023-02-06)
 
 
