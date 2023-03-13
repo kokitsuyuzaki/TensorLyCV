@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# Package Loading
 import sys
 import numpy as np
 import tensorly.decomposition as tsd
@@ -7,7 +8,7 @@ import math
 import random as rd
 import tensorly.cp_tensor as tsc
 
-# Arguments
+# Arguments passed by Snakemake
 args = sys.argv
 infile = args[1]
 outfile = args[2]
@@ -15,7 +16,7 @@ cp_rank = int(args[3])
 n_iter_max = int(args[4])
 ratio = int(args[5])
 
-# Functions
+# Function to return test error
 def test_error(tensor, mask_tensor, rec_tensor):
     x = (1 - mask_tensor) * tensor
     y = (1 - mask_tensor) * rec_tensor
@@ -47,13 +48,11 @@ exec(cmd)
 # Assign 0 to nan
 tnsr = np.nan_to_num(tnsr, nan = 0)
 
-# Non-negative CP Decomposition
+# Non-negative CP Decomposition (NTF) by TensorLy
 res = tsd.non_negative_parafac(tensor=tnsr, mask=mask_tnsr2, n_iter_max=n_iter_max, rank=cp_rank, init='svd', verbose=True)
 res = tsc.cp_to_tensor(res)
 
-# Error
+# Save test error into a text file
 mask_tnsr3 = 1 - mask_tnsr + mask_tnsr2
 error = test_error(tnsr, mask_tnsr3, res)
-
-# Save
 np.savetxt(outfile, [error])

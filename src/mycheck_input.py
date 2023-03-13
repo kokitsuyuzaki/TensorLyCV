@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# Package Loading
 import sys
 import numpy as np
 
-# Arguments
+# Arguments passed by Snakemake
 args = sys.argv
 infile = args[1]
 outfile = args[2]
 
-# Loading Data Tensor
+# Loading Data Tensor (NumPy array)
 tnsr = np.load(infile)
 
 # Non-empty Check
@@ -22,8 +23,8 @@ if booltnsr.sum() != 0:
     print("The data tensor contains negative elements...")
     quit()
 
-# Int => Float
+# Convert Int => Float
 tnsr = 1.0 * tnsr
 
-# Save
+# Saving a Numpy array into a Numpy's Binary file
 np.save(outfile, tnsr)
