@@ -33,7 +33,7 @@ mamba --version
 Next, we created a `conda` environment containing the required tools in `TensorLyCV` as follows:
 
 ```bash
-mamba create -c conda-forge -c bioconda -c anaconda -n tensorlycv snakemake wget tensorly seaborn matplotlib -y
+mamba create -c conda-forge -c bioconda -c anaconda -n tensorlycv snakemake wget tensorly=0.7.0 seaborn matplotlib -y
 ```
 
 After activating the conda environment, we confirmed that the `snakemake` command did work as follows:
