@@ -122,6 +122,16 @@ docker run --rm -v $(pwd):/work ghcr.io/kokitsuyuzaki/tensorlycv:main \
 --n_iter_max=1000 --ratio=30 --memgb=10
 ```
 
+## For Snakemake >=8 users
+`--cluster CMD` option was removed from Snakemake v8.
+Use `--executor cluster-generic --cluster-generic-submit-cmd CMD` instead.
+To use this new feature, you have to install `snakemake-executor-plugin-cluster-generic` in advance.
+
+cf.
+
+https://stackoverflow.com/questions/77929511/how-to-run-snakemake-8-on-a-slurm-cluster
+https://snakemake.readthedocs.io/en/latest/getting_started/migration.html#migrating-to-snakemake-8
+
 # Reference
 - [Ikeda K. et al., iScience, 2022](https://www.sciencedirect.com/science/article/pii/S2589004222015097)
 - [TensorLy](http://tensorly.org/stable/index.html)
