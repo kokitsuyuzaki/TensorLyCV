@@ -67,7 +67,7 @@ wget --no-check-certificate https://figshare.com/ndownloader/files/38344040 \
 
 Next, perform `TensorLyCV` by the `snakemake` command as follows.
 
-**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=3 n_iter_max=2.**
 
 **Note that `--use-singularity` option does not work on M1/M2 Mac.**
 
@@ -83,11 +83,11 @@ The meanings of all the arguments are below.
 - `--config`: Snakemake option to set [the configuration](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html) (mandatory)
 - `input`: Input file (e.g., vaccine_tensor.npy, mandatory)
 - `outdir`: Output directory (e.g., output, mandatory)
-- `rank_min`: Lower limit of rank parameter to search (e.g., 1, mandatory)
-- `rank_max`: Upper limit of rank parameter to search (e.g., 10, mandatory)
-- `trials`: Number of random trials (e.g., 50, mandatory)
-- `n_iter_max`: Number of iterations (e.g., 1000, mandatory)
-- `ratio`: Sampling ratio of cross-validation (0 - 100, e.g., 30, mandatory)
+- `rank_min`: Lower limit of rank parameter to search (Default value is 2, which is used for the rank parameter, optional)
+- `rank_max`: Upper limit of rank parameter to search (Default value is 10, which is used for the rank parameter, optional)
+- `trials`: Number of random trials (Default value is 50, optional)
+- `n_iter_max`: Number of iterations (Default value is 1000, optional)
+- `ratio`: Sampling ratio of cross-validation (Default value is 30, optional)
 - `--resources`: Snakemake option to control [resources](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#resources) (optional)
 - `mem_gb`: Memory usage (GB, e.g. 10, optional)
 
@@ -95,7 +95,7 @@ The meanings of all the arguments are below.
 
 If the `docker` command is available, the following command can be performed without installing any tools.
 
-**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=2 trials=2 n_iter_max=2.**
+**Note: To check if the command is executable, set smaller parameters such as rank_min=2 rank_max=3 trials=2 n_iter_max=2.**
 
 **Note that `--platform linux/amd64` option is required on M1/M2 Mac.**
 

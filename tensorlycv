@@ -12,15 +12,15 @@ Cross validation workflow of TensorLy
 
     -c, -cores,         --cores                 Number of cores to use Snakemake (e.g., default value is 10, optional)
 
-    -l, -rank_min,          --rank_min                  Lower limit of rank parameter to search (e.g., default value is 10, optional)
+    -l, -rank_min,          --rank_min          Lower limit of rank parameter to search (Default value is 2, which is used for the rank parameter, optional)
 
-    -u, -rank_max,          --rank_max                  Upper limit of rank parameter to search (e.g., default value is 10, optional)
+    -u, -rank_max,          --rank_max          Upper limit of rank parameter to search (Default value is 10, which is used for the rank parameter, optional)
 
-    -t, -trials,        --trials                Number of random trials (e.g., default value is 50, optional)
+    -t, -trials,        --trials                Number of random trials (Default value is 50, optional)
 
-    -e, -n_iter_max,         --n_iter_max                 Number of iterations (e.g., default value is 1000, optional)
+    -e, -n_iter_max,         --n_iter_max       Number of iterations (Default value is 1000, optional)
 
-    -a, -ratio,         --ratio                 Sampling ratio of cross validation (0 - 100, e.g., default value is 20, optional)
+    -a, -ratio,         --ratio                 Sampling ratio of cross-validation (Default value is 20, optional)
 
     -m, -memgb,         --memgb                 Memory usage (GB, e.g., default value is 10, optional)
 
@@ -35,13 +35,13 @@ EOF
 INPUT=""
 OUTDIR=""
 CORES=10
-RANK_MIN=1
+RANK_MIN=2
 RANK_MAX=10
 TRIALS=50
 N_ITER_MAX=1000
 RATIO=30
 MEMGB=10
-VERSION="v1.7.0"
+VERSION="v1.8.0"
 
 # Command Argument Parsing
 while getopts i:o:c:l:u:t:e:a:m:h-:v- opt; do

@@ -11,13 +11,36 @@ INPUT = config["input"]
 OUTDIR = config["outdir"]
 
 # Optional Arguments
-RANK_MIN = int(config["rank_min"])
-RANK_MAX = int(config["rank_max"])
+RANK_MIN = config.get("rank_min", "None")
+if RANK_MIN == "None":
+	RANK_MIN = 2
+else:
+	RANK_MIN = int(RANK_MIN)
+RANK_MAX = config.get("rank_max", "None")
+if RANK_MAX == "None":
+	RANK_MAX = 10
+else:
+	RANK_MAX = int(RANK_MAX)
 CP_RANKS = [str(x) for x in list(range(RANK_MIN, RANK_MAX + 1))]
-TRIALS = int(config["trials"])
+
+TRIALS = config.get("trials", "None")
+if TRIALS == "None":
+	TRIALS = 50
+else:
+	TRIALS = int(TRIALS)
 TRIAL_INDEX = [str(x) for x in list(range(1, TRIALS+1))]
-N_ITER_MAX = int(config["n_iter_max"])
-RATIO = int(config["ratio"])
+
+N_ITER_MAX = config.get("n_iter_max", "None")
+if N_ITER_MAX == "None":
+	N_ITER_MAX = 1000
+else:
+	N_ITER_MAX = int(N_ITER_MAX)
+
+RATIO = config.get("ratio", "None")
+if RATIO == "None":
+	RATIO = 30
+else:
+	RATIO = int(RATIO)
 
 # Docker Container
 container: 'docker://koki/tensorlycv_component:latest'
