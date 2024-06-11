@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.7.1...v1.8.0) (2024-06-11)
+
+
+### Features
+
+* Optional Parameter ([328f1dd](https://github.com/kokitsuyuzaki/TensorLyCV/commit/328f1ddcc67a9eb77ee8545f53e1ca4e274ff1b6))
+
+
+### Bug Fixes
+
+* DAG ([3001c04](https://github.com/kokitsuyuzaki/TensorLyCV/commit/3001c04b234c91cd0f0a21275701a4aaf3791ab7))
+
 ## [1.7.1](https://github.com/kokitsuyuzaki/TensorLyCV/compare/v1.7.0...v1.7.1) (2023-03-13)
 
 
